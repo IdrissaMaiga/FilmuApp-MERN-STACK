@@ -1,0 +1,159 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  USER
+}
+
+enum Type_ {
+  SERIE
+  MOVIE
+  LIVE
+}
+
+model User {
+  id                   String      @id @default(auto()) @map("_id") @db.ObjectId
+  name                 String      @unique
+  email                String      @unique
+  role                 Role        @default(USER)
+  token                String?
+  phone                String?
+  StreamingAccess      Json?
+  profilePicture       String?
+  totalpaid            Float       @default(0)
+  password             String
+  isactive             Boolean     @default(false)
+  subscribtionEndDay   DateTime?
+  subscribtionStartDay DateTime?
+  isbanned             Boolean     @default(false)
+  creationdate         DateTime    @default(now())
+  lastlogin            DateTime?
+  taste                Taste?
+  downloads            Downloads[]
+  watching             Watching[]
+}
+
+model Taste {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  name         String    @default("mylist")
+  userId       String    @unique @db.ObjectId
+  user         User      @relation(fields: [userId], references: [id])
+  creationdate DateTime  @default(now())
+  lastupdate   DateTime?
+  SerieIds     String[]  @db.ObjectId
+  Series       Series[]  @relation(fields: [SerieIds], references: [id])
+  MovieIds     String[]  @db.ObjectId
+  Movies       Movie[]   @relation(fields: [MovieIds], references: [id])
+}
+
+model Watching {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId         String   @db.ObjectId
+  user           User     @relation(fields: [userId], references: [id])
+  time           Int
+  movie          Movie?   @relation(fields: [movieId], references: [id])
+  episode        Episode? @relation(fields: [episodeId], references: [id])
+  movieId        String?  @db.ObjectId
+  DateOfWatching DateTime @default(now())
+  episodeId      String?  @db.ObjectId
+}
+
+model Series {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  creationdate  DateTime @default(now())
+  description   String?
+  name          String
+  downloadPrice Float    @default(400)
+  paymentStatus Boolean  @default(false)
+  type_         Type_    @default(SERIE)
+  seenby        Int      @default(0) // number of users who have seen the service
+  season        Season[]
+  Tastes        Taste[]  @relation(fields: [tasteIds], references: [id])
+  tasteIds      String[] @db.ObjectId
+}
+
+model Season {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  number   Int
+  data     Json
+  episodes Episode[]
+  Series   Series    @relation(fields: [seriesId], references: [id])
+  seriesId String    @db.ObjectId
+}
+
+model Episode {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  creationdate  DateTime    @default(now())
+  description   String
+  name          String
+  address       String
+  filename      String
+  downloadPrice Float       @default(400)
+  paymentStatus Boolean     @default(false)
+  seenby        Int         @default(0) // number of users who have seen the service
+  Downloads     Downloads[]
+  Watching      Watching[]
+  Season        Season      @relation(fields: [seasonId], references: [id])
+  seasonId      String      @db.ObjectId
+}
+
+model Movie {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  creationdate  DateTime    @default(now())
+  description   String?
+  name          String
+  downloadPrice Float       @default(400)
+  paymentStatus Boolean     @default(false)
+  addresses     String[]
+  filename      String
+  type_         Type_       @default(MOVIE)
+  seenby        Int         @default(0) // number of users who have seen the service
+  Tastes        Taste[]     @relation(fields: [tasteIds], references: [id])
+  tasteIds      String[]    @db.ObjectId
+  Downloads     Downloads[]
+  Watchings     Watching[]
+}
+
+model Channel {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  creationdate DateTime @default(now())
+  name         String
+  logos        String[]
+  description  String?
+  ports        port[]
+}
+
+model port {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  region       String?
+  name         String
+  resolution   String?
+  utc          String?
+  indexer      String
+  creationdate DateTime @default(now())
+  Channel      Channel? @relation(fields: [channelId], references: [id])
+  channelId    String?  @db.ObjectId
+}
+
+model Downloads {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId         String    @db.ObjectId
+  user           User      @relation(fields: [userId], references: [id])
+  episode        Episode?  @relation(fields: [episodeId], references: [id])
+  movie          Movie?    @relation(fields: [movieId], references: [id])
+  paymentproof   String[]
+  clientconfirm  Boolean   @default(false)
+  adminconfirm   Boolean   @default(false)
+  fullfilledDate DateTime?
+  expirationDate DateTime?
+  episodeId      String?   @db.ObjectId
+  movieId        String?   @db.ObjectId
+}
