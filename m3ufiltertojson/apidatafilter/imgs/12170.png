@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="300"
+   height="300"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.45.1"
+   version="1.0"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-126.63636,-639.41008)">
+    <g
+       id="g8027"
+       clip-path="url(#id112)"
+       transform="matrix(11.797925,0,0,-11.797925,-1595.645,8874.5269)">
+      <g
+         id="g8029"
+         transform="translate(171.4076,685.303)">
+        <path
+           id="path8031"
+           d="M 0,0 C 0,-7.02 -5.691,-12.711 -12.712,-12.711 C -19.732,-12.711 -25.423,-7.02 -25.423,0 C -25.423,7.021 -19.732,12.711 -12.712,12.711 C -5.691,12.711 0,7.021 0,0"
+           style="fill:#f78712;fill-rule:nonzero;stroke:none" />
+      </g>
+      <g
+         id="g8033"
+         transform="translate(153.0415,689.9578)">
+        <path
+           id="path8035"
+           d="M 0,0 L 9.855,0 L 2.238,-16.904 C 3.326,-17.207 4.47,-17.372 5.654,-17.372 C 5.858,-17.372 6.061,-17.366 6.263,-17.357 L 14.086,0.091 L 14.086,3.144 L 0,3.144 L 0,0 z "
+           style="fill:#ffffff;fill-rule:nonzero;stroke:none" />
+      </g>
+    </g>
+  </g>
+</svg>

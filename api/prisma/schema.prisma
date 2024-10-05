@@ -127,8 +127,9 @@ model Channel {
   creationdate DateTime @default(now())
   name         String
   logos        String[]
-  description  String?
-  ports        port[]
+  ports        port[]   @relation("ChannelPorts") // Adding a relation name to avoid ambiguity
+  total        Int?     // New field for 'total'
+  category     String?  // New field for 'category'
 }
 
 model port {
@@ -138,10 +139,13 @@ model port {
   resolution   String?
   utc          String?
   indexer      String
+  language     String?
+  ok  Boolean
   creationdate DateTime @default(now())
-  Channel      Channel? @relation(fields: [channelId], references: [id])
   channelId    String?  @db.ObjectId
+  Channel      Channel? @relation(fields: [channelId], references: [id], name: "ChannelPorts") // Added relation name
 }
+
 
 model Downloads {
   id             String    @id @default(auto()) @map("_id") @db.ObjectId

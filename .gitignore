@@ -1,3 +1,10 @@
-.env
-# dependencies
+# Node.js dependencies
 /node_modules
+
+# m3u files
+*.m3u
+
+# Image folders
+# Exclude images folder and its content
+/apidatafilter/imgs/
+

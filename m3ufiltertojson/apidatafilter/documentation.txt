@@ -1,0 +1,115 @@
+Code Documentation
+Overview
+This script is responsible for fetching, processing, and filtering live TV channel categories, language, and resolution data from a streaming API. It normalizes channel data, removes duplicates, and extracts relevant metadata like language, resolution, and region.
+
+The processed data is saved to an output file (output.json) for further use. Additionally, it offers functionality to filter channels based on predefined categories such as country, type, and language.
+
+Table of Contents
+Resolution and Language Mapping
+Fetching Categories
+Duplicate Channel Removal
+Mapping and Transforming Channel Data
+Utility Functions
+File I/O Operations
+Resolution and Language Mapping
+These sections are responsible for defining the mappings and arrays that standardize resolutions and languages:
+
+Resolution Mapping (resolutionMapping): Maps various forms of resolution naming (e.g., HD, SD, 4K) to a standardized form.
+Languages (languages): An array of language codes used to identify channels.
+Regions (regions): An array of country and region names used for filtering categories based on regions.
+Fetching Categories
+Function: fetchCategories()
+Purpose: This function fetches TV channel categories from the streaming API. It processes the categories to extract country names, content types (e.g., KID, MUSIC, SPORT), and languages.
+
+Steps:
+
+Fetches the category data from an external API using node-fetch.
+Cleans and normalizes the category names to uppercase.
+Filters categories based on:
+Countries: Uses the countries array to find matches in category names.
+Types: Filters categories that match predefined types like MUSIC, KID, DOCUMENTARY, etc.
+Languages: Uses the languages array to identify categories starting with a language code.
+Output: The function returns an object containing filtered categories (by country, type, and language) and saves this data to output.json.
+
+Duplicate Channel Removal
+Function: removeDuplicateChannelsByNum(groups)
+Purpose: Removes duplicate channels within groups based on the .num property.
+
+Steps:
+
+Iterates over each channel group.
+Tracks num properties in a Set to ensure each channel's num is unique.
+If a num is encountered again, the channel is excluded from the result.
+Output: A filtered list of channel groups with unique channel numbers.
+
+Mapping and Transforming Channel Data
+Function: transformGroupsToChannels(groups)
+Purpose: Transforms raw channel data into a structured format by extracting relevant metadata, such as region, language, resolution, and UTC offset.
+
+Steps:
+
+Loops through each channel in the groups list.
+Extracts and normalizes the following properties for each channel:
+Name: Cleans the channel name and removes trailing "H".
+Region: Extracts the region based on the regions list.
+Language: Determines the language using the channel’s epg_channel_id and its associated region.
+Resolution: Extracts the resolution (HD, 4K, etc.) from the name using extractResolution.
+UTC Offset: Determines the UTC offset from the channel name.
+Output: A structured list of channels with properties like name, region, language, resolution, utc, and indexer.
+
+Utility Functions
+These functions are auxiliary helpers that are used to simplify various tasks in the main flow.
+
+Function: normalizeName(name)
+Purpose: Removes special characters, region codes, and resolution terms from the channel name.
+
+Steps:
+
+Replaces "|" characters with spaces.
+Removes any occurrences of region codes or resolution terms from the name.
+Removes UTC offsets like "+1" or "-3".
+Output: A cleaned and normalized version of the channel name.
+
+Function: getRegionFromName(name)
+Purpose: Extracts the region from the channel name by matching parts of the name with known region codes.
+
+Steps:
+
+Splits the channel name into parts using the "|" separator.
+Compares each part with the list of known regions to find a match.
+Output: The matching region code or an empty string if no match is found.
+
+Function: getLanguageFromEpgId(epgChannelId, region)
+Purpose: Determines the language of the channel based on the epg_channel_id. Falls back to the region code if no epg_channel_id is present.
+
+Output: The language code (defaulting to 'EN' if no match is found).
+
+Function: extractResolution(name)
+Purpose: Extracts the resolution from the channel name using the resolutionMapping.
+
+Output: Returns either "HD", "4K", "SD", or the default "HD".
+
+Function: determineUTC(name)
+Purpose: Extracts the UTC offset from the channel name, if available.
+
+Output: The UTC offset in the format +N or -N, or an empty string if no offset is found.
+
+Function: generateSubsequences(name)
+Purpose: Generates all possible subsequences of words in a channel name.
+
+Output: A list of unique subsequences from the input name.
+
+Function: findMostCommonSequence(names, minPercentage)
+Purpose: Finds the most common subsequence among a list of channel names. This can be useful for detecting common keywords in channel titles (e.g., NEWS, SPORTS).
+
+Output: The most common subsequence, based on a minimum appearance percentage.
+
+File I/O Operations
+Function: fs.writeFileSync(file, data)
+Purpose: Saves data to a JSON file (output.json in this case) after the categories are fetched and processed.
+Function: fs.readFileSync(file, 'utf8')
+Purpose: Reads the checkpoint file (checkpoint1.json) to load previously processed group data for deduplication.
+How to Use the Script
+Run the Script: Execute the script with Node.js. It will fetch categories, process channel data, and save the results to an output file.
+Custom Filtering: Modify the countries, languages, regions, and typeCategories arrays to change the filtering behavior based on your specific needs.
+Channel Deduplication: The script automatically removes duplicate channels based on their num property.

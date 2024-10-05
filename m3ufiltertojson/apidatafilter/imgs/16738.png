@@ -1,0 +1,350 @@
+<!DOCTYPE html>  
+<html prefix="og: https://ogp.me/ns# video: https://ogp.me/ns/video#" lang="en">
+<head>
+	<!-- tpl v.240112-1 -->
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+	<title>📺Televizor Media - open TV online!</title>
+	<meta name='Description' content='📺Televizor Media - watch online TV channels for free worldwide.'>
+	<meta name='Keywords' content='Televizor Media'> 
+  
+	<meta property="og:title" content="📺Televizor Media - open TV online!" />
+    <meta property="og:type" content="website" /> 
+	<meta property="og:site_name" content="📺Televizor Media" />
+    <meta property="og:url" content="https://televizormedia.online/tvmedia/" /> 
+    <meta property="og:description" content="📺Televizor Media - watch online TV channels for free worldwide." />
+																																																																																						   
+	<meta property="og:image" content="/images/Televizor_Logo_media.svg" />  
+ 
+	<link rel="canonical" href="https://televizormedia.online/tvmedia/" />
+  
+	<link rel="icon" type="image/png" href="/images/Televizor_Icon_Draft.png" sizes="32x32" />
+	<link rel="shortcut icon" href="/images/Televizor_Icon_Draft.svg" type="image/svg" />
+	<link rel="icon" type="image/png" href="/images/android-chrome-192x192.png" sizes="192x192" />
+	<link rel="icon" type="image/png" href="/images/android-chrome-512x512.png" sizes="512x512" />
+	<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16" /> 
+	<!--link rel="manifest" href="/site.webmanifest" />
+	<meta name="viewport" content="width=device-width"/>           
+	<meta name="HandheldFriendly" content="true" />
+	<meta name="apple-mobile-web-app-capable" content="YES" -->
+	<meta name="theme-color" content="#0188D1" />
+    
+	<link rel='stylesheet' type='text/css' href='/css/fonts.css?em1727185631' />
+	<link rel='stylesheet' type='text/css' href='/css/tv2.css?em1727185631' />
+	<link rel='stylesheet' type='text/css' href='/css/tvmedia.css?em1727185631' />	
+	<!--link rel='stylesheet' type='text/css' href='/js/owl.carousel.css' /-->
+	<!--link rel="stylesheet" type="text/css" href="/css_chan.css?1727185631" /-->   
+  
+	<!--meta name="referrer" content="origin" /-->
+    
+	<script type='text/javascript' src='/js/jquery.min.js'></script>
+	<script type="text/javascript" src="/js/owl.carousel.js"></script>
+	<script type="text/javascript" src="/js/scriptf.js?em1727185631"></script>
+	<script src="/js/streams.js?tt1727185631" defer></script>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-GDQN2B4DLK"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+	  gtag('config', 'G-GDQN2B4DLK');
+	</script>	
+</head>
+<body>
+<header class="header header-fixed ">
+	<div class="header-container">
+		<a class="header-logo-mobile" href="" ></a>
+
+		<div class="header-links">
+			<a class="header-logo" href="" title="📺Televizor Media - open TV online!"></a>
+			<div id="header-menu-close" class="header-menu-close">
+			<span class="header-menu-close-cross"></span>
+		</div>
+		<nav class="header-nav">
+			<a class="header-nav-item" href="">TV channels</a>     
+			<!--<a class="header-nav-item" href="/#team">Team</a>-->
+			<!--a class="header-nav-item" href="/#contacts">Contacts</a-->
+		</nav>
+		<div class="header-right">
+        <!--<a class="header-cir" href="/rating/"><image src="/wp-content/themes/gotech/images/cir_v1_normal.svg"  width="95" height="43"/></a>
+        -->
+			<!--a class="header-language" href="/ru">RU</a-->
+			<p class="desktop_only">📺Televizor Media open TV online!</p>
+        </div>
+    </div>
+    <div id="header-menu" class="header-menu"></div>
+  </div>
+</header>
+<div class="header-wrp"></div>
+<main>
+	<section class="top-banner px480" id="top-banner-1" aria-label="Top banner" style="">
+		<div class="top-banner-wrap">
+			<img src="/images/rt480_h.gif" alt="Wow! RT is for free now!" class="top-banner-img"/>
+			<div class="top-banner-description2">
+				<h1 class="top-banner-header2">Televizor Media - open TV online</h1>
+				<p><i><q>Everyone has the right to freedom of opinion and expression; this right includes freedom to hold opinions without interference and to seek, receive and impart information and ideas through any media and regardless of frontiers.</q></i><br/>- Universal Declaration of Human Rights</p>
+				<p><a class="more" href="/tvmedia/rt.html">Watch TV</a></p>
+			</div> 
+		</div>
+	</section>
+<!--/main-->	
+<!--nav-->
+	<section id="channels-list" class="channels-list" aria-label="Channels list">
+		<div class="wsm">
+			<ul class="list-container">
+
+				<li class="tv  free general item" data-chanid="744f4b70-ba3b-4809-8b83-b11a592bbb04" id="rt">
+					<a href="/tvmedia/rt.html" class="preview" title="RT"  data-bg="{stream_domain}/live_preview/250.jpeg" ></a>
+					<span class="lang"></span>
+					<div class="caption">
+						<img src="/logo/100/rt.png" alt="RT" class="logo" />
+						<p><a href="/tvmedia/rt.html" title="RT">RT</a><span class="program"></span></p>
+					</div>
+				</li>
+				<li class="tv  free general item" data-chanid="29873b9f-3b58-40c9-8a83-7017f2a637c9" id="rt-doc">
+					<a href="/tvmedia/rt-doc.html" class="preview" title="RT Doc"  data-bg="{stream_domain}/live_preview/863.jpeg" ></a>
+					<span class="lang"></span>
+					<div class="caption">
+						<img src="/logo/100/rt-doc.png" alt="RT Doc" class="logo" />
+						<p><a href="/tvmedia/rt-doc.html" title="RT Doc">RT Doc</a><span class="program"></span></p>
+					</div>
+				</li>
+				<li class="tv  free general item" data-chanid="35612286-d896-47aa-95f1-8e098540a9c2" id="rt-d">
+					<a href="/tvmedia/rt-d.html" class="preview" title="RT Д"  data-bg="{stream_domain}/live_preview/554.jpeg" ></a>
+					<span class="lang"></span>
+					<div class="caption">
+						<img src="/logo/100/rt-d.png" alt="RT Д" class="logo" />
+						<p><a href="/tvmedia/rt-d.html" title="RT Д">RT Д</a><span class="program"></span></p>
+					</div>
+				</li>
+				<li class="tv  free general item" data-chanid="" id="network10">
+					<a href="/tvmedia/network10.html" class="preview" title="Network 10"  data-bg="/preview/network10.jpg" ></a>
+					<span class="lang"></span>
+					<div class="caption">
+						<img src="/logo/100/network10.png" alt="Network 10" class="logo" />
+						<p><a href="/tvmedia/network10.html" title="Network 10">Network 10</a><span class="program"></span></p>
+					</div>
+				</li>
+				<li class="tv  free general item" data-chanid="" id="cgtn">
+					<a href="/tvmedia/cgtn.html" class="preview" title="CGTN"  data-bg="https://streaming.goodstream.cyou/live_preview/6050.jpeg" ></a>
+					<span class="lang"></span>
+					<div class="caption">
+						<img src="/logo/100/cgtn.png" alt="CGTN" class="logo" />
+						<p><a href="/tvmedia/cgtn.html" title="CGTN">CGTN</a><span class="program"></span></p>
+					</div>
+				</li>
+				<li class="tv  free general item" data-chanid="" id="jenny-live">
+					<a href="/tvmedia/jenny-live.html" class="preview" title="|18+| Jenny Live"  data-bg="/preview/jenny-live.jpg" ></a>
+					<span class="lang"></span>
+					<div class="caption">
+						<img src="/logo/100/jenny-live.png" alt="|18+| Jenny Live" class="logo" />
+						<p><a href="/tvmedia/jenny-live.html" title="|18+| Jenny Live">|18+| Jenny Live</a><span class="program"></span></p>
+					</div>
+				</li>
+				<li class="tv  free general item" data-chanid="" id="fireplace">
+					<a href="/tvmedia/fireplace.html" class="preview" title="Fireplace"  data-bg="https://streaming.goodstream.cyou/live_preview/3000.jpeg" ></a>
+					<span class="lang"></span>
+					<div class="caption">
+						<img src="/logo/100/fireplace.png" alt="Fireplace" class="logo" />
+						<p><a href="/tvmedia/fireplace.html" title="Fireplace">Fireplace</a><span class="program"></span></p>
+					</div>
+				</li>
+				<li class="tv  free general item" data-chanid="" id="miami-tv-latino">
+					<a href="/tvmedia/miami-tv-latino.html" class="preview" title="|18+| Miami TV Latino"  data-bg="/preview/miami-tv-latino.jpg" ></a>
+					<span class="lang"></span>
+					<div class="caption">
+						<img src="/logo/100/miami-tv-latino.png" alt="|18+| Miami TV Latino" class="logo" />
+						<p><a href="/tvmedia/miami-tv-latino.html" title="|18+| Miami TV Latino">|18+| Miami TV Latino</a><span class="program"></span></p>
+					</div>
+				</li>
+				<li class="tv  free general item" data-chanid="" id="rt-arabic">
+					<a href="/tvmedia/rt-arabic.html" class="preview" title="RT Arabic"  data-bg="https://streaming.goodstream.cyou/live_preview/45.jpeg" ></a>
+					<span class="lang"></span>
+					<div class="caption">
+						<img src="/logo/100/rt.png" alt="RT Arabic" class="logo" />
+						<p><a href="/tvmedia/rt-arabic.html" title="RT Arabic">RT Arabic</a><span class="program"></span></p>
+					</div>
+				</li>
+				<li class="tv  free general item" data-chanid="" id="rt_espanol">
+					<a href="/tvmedia/rt_espanol.html" class="preview" title="RT Español"  data-bg="https://streaming.goodstream.cyou/live_preview/46.jpeg" ></a>
+					<span class="lang"></span>
+					<div class="caption">
+						<img src="/logo/100/rt.png" alt="RT Español" class="logo" />
+						<p><a href="/tvmedia/rt_espanol.html" title="RT Español">RT Español</a><span class="program"></span></p>
+					</div>
+				</li>
+				<li class="tv  free general item" data-chanid="" id="cctv-4-china">
+					<a href="/tvmedia/cctv-4-china.html" class="preview" title="CCTV-4"  data-bg="https://streaming.goodstream.cyou/live_preview/6051.jpeg" ></a>
+					<span class="lang"></span>
+					<div class="caption">
+						<img src="/logo/100/cctv-4-china.png" alt="CCTV-4" class="logo" />
+						<p><a href="/tvmedia/cctv-4-china.html" title="CCTV-4">CCTV-4</a><span class="program"></span></p>
+					</div>
+				</li>
+				<li class="tv  free general item" data-chanid="" id="cgtn-russia">
+					<a href="/tvmedia/cgtn-russia.html" class="preview" title="CGTN Russian"  data-bg="https://streaming.goodstream.cyou/live_preview/6052.jpeg" ></a>
+					<span class="lang"></span>
+					<div class="caption">
+						<img src="/logo/100/cgtn-russia.png" alt="CGTN Russian" class="logo" />
+						<p><a href="/tvmedia/cgtn-russia.html" title="CGTN Russian">CGTN Russian</a><span class="program"></span></p>
+					</div>
+				</li>
+				<li class="tv  free general item" data-chanid="" id="waves">
+					<a href="/tvmedia/waves.html" class="preview" title="Waves"  data-bg="https://streaming.goodstream.cyou/live_preview/1000.jpeg" ></a>
+					<span class="lang"></span>
+					<div class="caption">
+						<img src="/logo/100/waves.png" alt="Waves" class="logo" />
+						<p><a href="/tvmedia/waves.html" title="Waves">Waves</a><span class="program"></span></p>
+					</div>
+				</li>
+				<li class="tv  free general item" data-chanid="" id="fishy-fishy">
+					<a href="/tvmedia/fishy-fishy.html" class="preview" title="Fishy Fishy"  data-bg="https://streaming.goodstream.cyou/live_preview/2000.jpeg" ></a>
+					<span class="lang"></span>
+					<div class="caption">
+						<img src="/logo/100/fishy-fishy.png" alt="Fishy Fishy" class="logo" />
+						<p><a href="/tvmedia/fishy-fishy.html" title="Fishy Fishy">Fishy Fishy</a><span class="program"></span></p>
+					</div>
+				</li>
+				<li class="tv  free general item" data-chanid="" id="dubai-sports-2">
+					<a href="/tvmedia/dubai-sports-2.html" class="preview" title="Dubai Sports 2"  data-bg="https://streaming.goodstream.cyou/live_preview/7010.jpeg" ></a>
+					<span class="lang"></span>
+					<div class="caption">
+						<img src="/logo/dubai-sports-2.webp" alt="Dubai Sports 2" class="logo" />
+						<p><a href="/tvmedia/dubai-sports-2.html" title="Dubai Sports 2">Dubai Sports 2</a><span class="program"></span></p>
+					</div>
+				</li>
+				<li class="tv  free general item" data-chanid="" id="dubai-sports-3">
+					<a href="/tvmedia/dubai-sports-3.html" class="preview" title="Dubai Sports 3"  data-bg="https://streaming.goodstream.cyou/live_preview/7011.jpeg" ></a>
+					<span class="lang"></span>
+					<div class="caption">
+						<img src="/logo/dubai-sports-3.png" alt="Dubai Sports 3" class="logo" />
+						<p><a href="/tvmedia/dubai-sports-3.html" title="Dubai Sports 3">Dubai Sports 3</a><span class="program"></span></p>
+					</div>
+				</li>
+
+			</ul>
+			<script src="/js/preview.js?em1727185631" defer></script>		
+		</div>
+	</section>
+<!--/nav-->
+</main>
+<footer class="footer">
+  <section class="footer-links">
+    <!--div class="footer-links-cases">
+      <div class="footer-links-cases-header">Case Studies</div>
+      <div class="footer-links-cases-items">
+         <a class="footer-links-cases-items-item" href="/mexico/")>Mexico</a>
+      </div>
+    </div-->
+    <div class="footer-links-group">
+      <!--div class="footer-links-services">
+        <div class="footer-links-services-header">Services</div>
+        <div class="footer-links-services-items">
+			<a class="footer-links-services-items-item" href="/startup-programs/" >Startup Cooperation Programs</a>
+        </div>
+      </div-->
+      <!--div class="footer-links-policies">
+        <div class="footer-links-policies-header">Policies</div>
+        <div class="footer-links-policies-items">
+          <a href="PrivacyPolicyLink" class="footer-links-policies-items-item">Privacy Policy</a>
+          <a href="TermsLink" class="footer-links-policies-items-item">Terms &amp; Conditions</a>
+          <a href="ConsentLink" class="footer-links-policies-items-item">Consent to Personal Data Processing</a>
+        </div>
+      </div-->
+      </div>	 
+      <!--div class="footer-links-group">	
+		<div class="footer-links-vacancies">
+			<div class="footer-links-vacancies-header">Careers</div>
+			<div class="footer-links-vacancies-items">
+			  <a href="/project-manager/" class="footer-links-vacancies-items-item">Project Manager</a>
+			</div>
+		  </div>
+	  </div-->
+	</div>
+  </section>
+
+  <!--section class="footer-subscribe" style="display:none">
+    <h3 class="footer-subscribe-header">Subscribe to our newsletter</h3>
+    <div class="footer-subscribe-content">
+      <!-- Subscription Form -->
+		<!--script src="//web.webformscr.com/apps/fc3/build/loader.js" sp-form-id="ac24"></script-->     
+		<!-- /Subscription Form -->
+    </div>
+  </section-->
+
+  <section class="footer-other" style="display:none">
+    <h3 class="footer-other-header">Header</h3>
+    <div class="footer-other-content">
+
+    <div class="footer-other-content-item" onclick="window.open(`link`)">
+      <div class="footer-other-content-item-logo" style="background-image:url()"></div>
+      <div class="footer-other-content-item-description">Description</div>
+    </div>
+    </div>
+  </section>
+  <section class="footer-social"  style="display:none">
+    <div class="footer-social-item" onclick="window.open('https://www.facebook.com/')">
+      <div class="icon-social-facebook"></div>
+    </div>
+    <div class="footer-social-item" onclick="window.open('https://www.linkedin.com/')">
+      <div class="icon-social-linkedin"></div>
+    </div>
+
+    <div class="footer-social-item" onclick="window.open('http://vk.com/')">
+      <div class="icon-social-vk"></div>
+    </div>
+    <div class="footer-social-item" onclick="window.open('https://www.youtube.com/')">
+      <div class="icon-social-youtube"></div>
+    </div>
+    <div class="footer-social-item" onclick="window.open('https://t.me/')">
+      <div class="icon-social-telegram"></div>
+    </div>
+  </section>
+  <div class="footer-rights">© 2022-2024. Televizor Media. 
+  <br />This site is for demo only.
+  <br />Contact us <a href="mailto:webmaster@televizor.media?subject=[FromTMSite]">webmaster@televizor.media</a>.
+  </div>
+
+  <section class="gt-popup gt-popup-cl">
+    <div class="gt-popup-content">
+      <span>Thank You!</span>
+      <div class="gt-popup-close gt-popup-cl">Close</div>
+    </div>
+  </section>
+</footer>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(93902790, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+   window.YAmetrika = "93902790";
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/93902790" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Top.Mail.Ru counter -->
+<script type="text/javascript">
+var _tmr = window._tmr || (window._tmr = []);
+_tmr.push({id: "3341061", type: "pageView", start: (new Date()).getTime()});
+(function (d, w, id) {
+  if (d.getElementById(id)) return;
+  var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true; ts.id = id;
+  ts.src = "https://top-fwz1.mail.ru/js/code.js";
+  var f = function () {var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ts, s);};
+  if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
+})(document, window, "tmr-code");
+</script>
+<noscript><div><img src="https://top-fwz1.mail.ru/counter?id=3341061;js=na" style="position:absolute;left:-9999px;" alt="Top.Mail.Ru" /></div></noscript>
+<!-- /Top.Mail.Ru counter -->
+
+</body>
+</html>
