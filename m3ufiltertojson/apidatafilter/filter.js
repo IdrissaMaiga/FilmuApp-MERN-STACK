@@ -512,7 +512,13 @@ const firstContainedString = findFirstContainedString(typeCategories, typeCatego
                 channel.name.includes("VS") ||
                 channel.name.includes("✦") ||
                 channel.name.includes("●") ||
+                channel.name.includes("[") ||
+                channel.name.includes("]") ||
+                channel.name.includes("_") ||
+                channel.name.includes("*") ||
+                channel.name.includes("'") ||
                 channel.name.includes("()")
+
             )&&channel.logos.length!== 0
         );
         
