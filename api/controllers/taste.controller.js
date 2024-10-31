@@ -40,7 +40,7 @@ export const getTaste = async (req, res) => {
     const loggedInUserId = req.user.id // Logged-in user ID
     const { selections } = req.body
     // Check if the logged-in user is an admin
-    const isAdmin = req.IsAdmin
+    const isAdmin = req.isAdmin
 
     // Determine the user ID to update based on admin status
     const targetUserId = isAdmin ? userId : loggedInUserId
@@ -216,7 +216,7 @@ export const updateTaste = async (req, res) => {
     const { fieldName, fieldValue } = req.body
 
     // Check if the logged-in user is an admin
-    const isAdmin = req.IsAdmin
+    const isAdmin = req.isAdmin
 
     // Determine the user ID to update based on admin status
     const targetUserId = isAdmin ? userId : loggedInUserId
@@ -230,7 +230,7 @@ export const updateTaste = async (req, res) => {
       return res.status(404).json({ message: 'Taste not found for the user' })
     }
     if (
-      fieldName !== 'lastupdate' &&
+      
       fieldName !== 'name' &&
       fieldName !== 'SerieIds' &&
       fieldName !== 'MovieIds'
@@ -263,7 +263,7 @@ export const deleteTaste = async (req, res) => {
     const loggedInUserId = req.user.id // Logged-in user ID
 
     // Check if the logged-in user is an admin
-    const isAdmin = req.IsAdmin
+    const isAdmin = req.isAdmin
 
     // Determine the user ID to update based on admin status
     const targetUserId = isAdmin ? userId : loggedInUserId
@@ -296,7 +296,7 @@ export const getAllTastes = async (req, res) => {
   try {
     const { selections } = req.body
     // Check if the logged-in user is an admin
-    const isAdmin = req.IsAdmin
+    const isAdmin = req.isAdmin
 
     if (!isAdmin) {
       return res

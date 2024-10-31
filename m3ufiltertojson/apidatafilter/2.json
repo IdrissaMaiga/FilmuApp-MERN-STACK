@@ -1,0 +1,1317 @@
+{
+  "groups": [
+    [
+      {
+        "num": 1,
+        "name": "|FR| TF1 ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 148461,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5037.png",
+        "epg_channel_id": "tf1.fr",
+        "added": "1623851063",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 2,
+        "name": "|FR| TF1 HD",
+        "stream_type": "live",
+        "stream_id": 269,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5037.png",
+        "epg_channel_id": "tf1.fr",
+        "added": "1476050288",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 3,
+        "name": "|FR| TF1 HD +4",
+        "stream_type": "live",
+        "stream_id": 31505,
+        "stream_icon": "http://138.199.27.237:8080/FRANCE/TF1HD+4.png",
+        "epg_channel_id": "tf1.fr",
+        "added": "1575139532",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 4,
+        "name": "|FR| TF1 ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 32750,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5037.png",
+        "epg_channel_id": "tf1.fr",
+        "added": "1576515513",
+        "is_adult": 0,
+        "category_id": "1174",
+        "category_ids": [
+          1174
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      },
+      {
+        "num": 5,
+        "name": "|FR| TF1 ˢᴰ",
+        "stream_type": "live",
+        "stream_id": 12775,
+        "stream_icon": "http://138.199.27.237:8080/FRANCE/TF1HD.png",
+        "epg_channel_id": "tf1.fr",
+        "added": "1553356893",
+        "is_adult": 0,
+        "category_id": "1173",
+        "category_ids": [
+          1173
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      },
+      {
+        "num": 6,
+        "name": "|FR| TF1 +1 ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 32751,
+        "stream_icon": "http://138.199.27.237:8080/FRANCE/TF1HD+1.png",
+        "epg_channel_id": "tf1.fr",
+        "added": "1576515513",
+        "is_adult": 0,
+        "category_id": "1174",
+        "category_ids": [
+          1174
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      },
+      {
+        "num": 7,
+        "name": "|FR| TF1  1 ˢᴰ",
+        "stream_type": "live",
+        "stream_id": 12776,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5037.png",
+        "epg_channel_id": "tf1.fr",
+        "added": "1553356893",
+        "is_adult": 0,
+        "category_id": "1173",
+        "category_ids": [
+          1173
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      }
+    ],
+    [
+      {
+        "num": 8,
+        "name": "|FR| FRANCE 2 ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 148463,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5052.png",
+        "epg_channel_id": "france2.fr",
+        "added": "1623851064",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 9,
+        "name": "|FR| France 2 HD",
+        "stream_type": "live",
+        "stream_id": 274,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5052.png",
+        "epg_channel_id": "france2.fr",
+        "added": "1476050571",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 10,
+        "name": "|FR| France 2 HD +4",
+        "stream_type": "live",
+        "stream_id": 31507,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5052.png",
+        "epg_channel_id": "france2.fr",
+        "added": "1575139606",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 11,
+        "name": "|FR| FRANCE 2 ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 32752,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5052.png",
+        "epg_channel_id": "france2.fr",
+        "added": "1576515513",
+        "is_adult": 0,
+        "category_id": "1174",
+        "category_ids": [
+          1174
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      },
+      {
+        "num": 12,
+        "name": "|FR| FRANCE 2 ˢᴰ",
+        "stream_type": "live",
+        "stream_id": 12852,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5052.png",
+        "epg_channel_id": "france2.fr",
+        "added": "1553356894",
+        "is_adult": 0,
+        "category_id": "1173",
+        "category_ids": [
+          1173
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      },
+      {
+        "num": 13,
+        "name": "|FR| FRANCE 2 ˢᴰ",
+        "stream_type": "live",
+        "stream_id": 12851,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5052.png",
+        "epg_channel_id": "france2.fr",
+        "added": "1553356894",
+        "is_adult": 0,
+        "category_id": "1173",
+        "category_ids": [
+          1173
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      }
+    ],
+    [
+      {
+        "num": 14,
+        "name": "|FR| FRANCE 3 ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 148466,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5053.png",
+        "epg_channel_id": "france3.fr",
+        "added": "1623851064",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 15,
+        "name": "|FR| France 3 HD",
+        "stream_type": "live",
+        "stream_id": 275,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5053.png",
+        "epg_channel_id": "france3.fr",
+        "added": "1476050586",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 16,
+        "name": "|FR| FRANCE 3 ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 32753,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5053.png",
+        "epg_channel_id": "france3.fr",
+        "added": "1576515513",
+        "is_adult": 0,
+        "category_id": "1174",
+        "category_ids": [
+          1174
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      },
+      {
+        "num": 17,
+        "name": "|FR| FRANCE 3 ˢᴰ",
+        "stream_type": "live",
+        "stream_id": 12850,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5053.png",
+        "epg_channel_id": "france3.fr",
+        "added": "1553356894",
+        "is_adult": 0,
+        "category_id": "1173",
+        "category_ids": [
+          1173
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      },
+      {
+        "num": 18,
+        "name": "|FR| FRANCE 3 NOA HD",
+        "stream_type": "live",
+        "stream_id": 22059,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5053.png",
+        "epg_channel_id": "france3.fr",
+        "added": "1559272847",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      }
+    ],
+    [
+      {
+        "num": 19,
+        "name": "|FR| FRANCE 4 ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 148467,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5054.png",
+        "epg_channel_id": "france4.fr",
+        "added": "1623851064",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 20,
+        "name": "|FR| France 4 HD",
+        "stream_type": "live",
+        "stream_id": 276,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5054.png",
+        "epg_channel_id": "france4.fr",
+        "added": "1476050601",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 21,
+        "name": "|FR| FRANCE 4 ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 32754,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5054.png",
+        "epg_channel_id": "france4.fr",
+        "added": "1576515513",
+        "is_adult": 0,
+        "category_id": "1174",
+        "category_ids": [
+          1174
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      },
+      {
+        "num": 22,
+        "name": "|FR| FRANCE 4 ˢᴰ",
+        "stream_type": "live",
+        "stream_id": 12849,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5054.png",
+        "epg_channel_id": "france4.fr",
+        "added": "1553356894",
+        "is_adult": 0,
+        "category_id": "1173",
+        "category_ids": [
+          1173
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      }
+    ],
+    [
+      {
+        "num": 23,
+        "name": "|FR| FRANCE 5 ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 148468,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5096.png",
+        "epg_channel_id": "france5.fr",
+        "added": "1623851064",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 24,
+        "name": "|FR| France 5 HD",
+        "stream_type": "live",
+        "stream_id": 277,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5096.png",
+        "epg_channel_id": "france5.fr",
+        "added": "1476050615",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 25,
+        "name": "|FR| FRANCE 5 ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 32755,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5096.png",
+        "epg_channel_id": "france5.fr",
+        "added": "1576515513",
+        "is_adult": 0,
+        "category_id": "1174",
+        "category_ids": [
+          1174
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      },
+      {
+        "num": 26,
+        "name": "|FR| FRANCE 5 ˢᴰ",
+        "stream_type": "live",
+        "stream_id": 12848,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5096.png",
+        "epg_channel_id": "france5.fr",
+        "added": "1553356894",
+        "is_adult": 0,
+        "category_id": "1173",
+        "category_ids": [
+          1173
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      }
+    ],
+    [
+      {
+        "num": 27,
+        "name": "|FR| ARTE HD",
+        "stream_type": "live",
+        "stream_id": 7411,
+        "stream_icon": "http://138.199.27.237:8080/NEDERLAND/ARTE.png",
+        "epg_channel_id": "arte.fr",
+        "added": "1525293283",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 28,
+        "name": "|FR| ARTE ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 32757,
+        "stream_icon": "http://138.199.27.237:8080/NEDERLAND/ARTE.png",
+        "epg_channel_id": "arte.fr",
+        "added": "1576515513",
+        "is_adult": 0,
+        "category_id": "1174",
+        "category_ids": [
+          1174
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      },
+      {
+        "num": 29,
+        "name": "|FR| ARTE ˢᴰ",
+        "stream_type": "live",
+        "stream_id": 12907,
+        "stream_icon": "http://138.199.27.237:8080/NEDERLAND/ARTE.png",
+        "epg_channel_id": "arte.fr",
+        "added": "1553356895",
+        "is_adult": 0,
+        "category_id": "1173",
+        "category_ids": [
+          1173
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      }
+    ],
+    [
+      {
+        "num": 30,
+        "name": "|FR| M6 ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 148462,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5038.png",
+        "epg_channel_id": "m6.fr",
+        "added": "1623851064",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 31,
+        "name": "|FR| M6 HD",
+        "stream_type": "live",
+        "stream_id": 270,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5038.png",
+        "epg_channel_id": "m6.fr",
+        "added": "1476050308",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 32,
+        "name": "|FR| M6 ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 32756,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5038.png",
+        "epg_channel_id": "m6.fr",
+        "added": "1576515513",
+        "is_adult": 0,
+        "category_id": "1174",
+        "category_ids": [
+          1174
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      },
+      {
+        "num": 33,
+        "name": "|FR| M6 ˢᴰ",
+        "stream_type": "live",
+        "stream_id": 12826,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5038.png",
+        "epg_channel_id": "m6.fr",
+        "added": "1553356894",
+        "is_adult": 0,
+        "category_id": "1173",
+        "category_ids": [
+          1173
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      },
+      {
+        "num": 34,
+        "name": "|FR| M6 HD +3",
+        "stream_type": "live",
+        "stream_id": 31506,
+        "stream_icon": "http://138.199.27.237:8080/FRANCE/M6%2B3.png",
+        "epg_channel_id": "m6.fr",
+        "added": "1575139584",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      }
+    ],
+    [
+      {
+        "num": 35,
+        "name": "|FR| 6TER ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 148473,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5089.png",
+        "epg_channel_id": "6ter.fr",
+        "added": "1623851064",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 36,
+        "name": "|FR| 6TER HD",
+        "stream_type": "live",
+        "stream_id": 11035,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5089.png",
+        "epg_channel_id": "6ter.fr",
+        "added": "1544630351",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 37,
+        "name": "|FR| 6TER ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 32758,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5089.png",
+        "epg_channel_id": "6ter.fr",
+        "added": "1576515513",
+        "is_adult": 0,
+        "category_id": "1174",
+        "category_ids": [
+          1174
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      },
+      {
+        "num": 38,
+        "name": "|FR| 6TER ˢᴰ",
+        "stream_type": "live",
+        "stream_id": 12915,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5089.png",
+        "epg_channel_id": "6ter.fr",
+        "added": "1553356895",
+        "is_adult": 0,
+        "category_id": "1173",
+        "category_ids": [
+          1173
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      }
+    ],
+    [
+      {
+        "num": 39,
+        "name": "|FR| W9 ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 148464,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5055.png",
+        "epg_channel_id": "w9.fr",
+        "added": "1623851064",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 40,
+        "name": "|FR| W9 HD",
+        "stream_type": "live",
+        "stream_id": 271,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5055.png",
+        "epg_channel_id": "w9.fr",
+        "added": "1476050317",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 41,
+        "name": "|FR| W9 ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 32798,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5055.png",
+        "epg_channel_id": "w9.fr",
+        "added": "1576515513",
+        "is_adult": 0,
+        "category_id": "1174",
+        "category_ids": [
+          1174
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      },
+      {
+        "num": 42,
+        "name": "|FR| W9 HD +6",
+        "stream_type": "live",
+        "stream_id": 31508,
+        "stream_icon": "http://138.199.27.237:8080/FRANCE/W9%2B6.png",
+        "epg_channel_id": "w9.fr",
+        "added": "1575139629",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 43,
+        "name": "|FR| W9 ˢᴰ",
+        "stream_type": "live",
+        "stream_id": 12761,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5055.png",
+        "epg_channel_id": "w9.fr",
+        "added": "1553356893",
+        "is_adult": 0,
+        "category_id": "1173",
+        "category_ids": [
+          1173
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      }
+    ],
+    [
+      {
+        "num": 44,
+        "name": "|FR| NRJ 12 ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 250654,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5056.png",
+        "epg_channel_id": "nrj12.fr",
+        "added": "1658074656",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 45,
+        "name": "|FR| NRJ 12 HD",
+        "stream_type": "live",
+        "stream_id": 321,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5056.png",
+        "epg_channel_id": "nrj12.fr",
+        "added": "1476052813",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 46,
+        "name": "|FR| NRJ12 ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 32802,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5056.png",
+        "epg_channel_id": "nrj12.fr",
+        "added": "1576515513",
+        "is_adult": 0,
+        "category_id": "1174",
+        "category_ids": [
+          1174
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      },
+      {
+        "num": 47,
+        "name": "|FR| NRJ 12 ˢᴰ",
+        "stream_type": "live",
+        "stream_id": 12811,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5056.png",
+        "epg_channel_id": "nrj12.fr",
+        "added": "1553356894",
+        "is_adult": 0,
+        "category_id": "1173",
+        "category_ids": [
+          1173
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      }
+    ],
+    [
+      {
+        "num": 48,
+        "name": "|FR| OLYMPIA TV ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 250659,
+        "stream_icon": "http://138.199.27.237:8080/FRANCE/OLYMPIATV.png",
+        "epg_channel_id": "olympia.fr",
+        "added": "1658074656",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 49,
+        "name": "|FR| Olympia TV",
+        "stream_type": "live",
+        "stream_id": 272471,
+        "stream_icon": "http://138.199.27.237:8080/FRANCE/OLYMPIATV.png",
+        "epg_channel_id": "olympia.fr",
+        "added": "1670193645",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      }
+    ],
+    [
+      {
+        "num": 50,
+        "name": "|FR| OLYMPIA TV ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 274857,
+        "stream_icon": "http://dmtn.tv:8080/images/PNloraZl_34fTzt064WXypFtLyxjv8qHAKMdBw09SvpP0h3UTk6T3Vx4A3uuMscT.png",
+        "epg_channel_id": "",
+        "added": "1671402338",
+        "is_adult": 0,
+        "category_id": "1174",
+        "category_ids": [
+          1174
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      }
+    ],
+    [
+      {
+        "num": 51,
+        "name": "|FR| TFX ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 250655,
+        "stream_icon": "http://138.199.27.237:8080/FRANCE/TFX.png",
+        "epg_channel_id": "tfx.fr",
+        "added": "1658074656",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 52,
+        "name": "|FR| TFX HD",
+        "stream_type": "live",
+        "stream_id": 4546,
+        "stream_icon": "http://138.199.27.237:8080/FRANCE/TFX.png",
+        "epg_channel_id": "tfx.fr",
+        "added": "1518031454",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      }
+    ],
+    [
+      {
+        "num": 55,
+        "name": "|FR| C8 ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 250656,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5093.png",
+        "epg_channel_id": "c8.fr",
+        "added": "1658074656",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 56,
+        "name": "|FR| C8 HD",
+        "stream_type": "live",
+        "stream_id": 272,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5093.png",
+        "epg_channel_id": "c8.fr",
+        "added": "1476050491",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 57,
+        "name": "|FR| C8 ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 32759,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5093.png",
+        "epg_channel_id": "c8.fr",
+        "added": "1576515513",
+        "is_adult": 0,
+        "category_id": "1174",
+        "category_ids": [
+          1174
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      },
+      {
+        "num": 58,
+        "name": "|FR| C8 ˢᴰ",
+        "stream_type": "live",
+        "stream_id": 12891,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5093.png",
+        "epg_channel_id": "c8.fr",
+        "added": "1553356895",
+        "is_adult": 0,
+        "category_id": "1173",
+        "category_ids": [
+          1173
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      }
+    ],
+    [
+      {
+        "num": 59,
+        "name": "|FR| CSTAR ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 250653,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5094.png",
+        "epg_channel_id": "cstar.fr",
+        "added": "1658074656",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 60,
+        "name": "|FR| CStar HD",
+        "stream_type": "live",
+        "stream_id": 316,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5094.png",
+        "epg_channel_id": "cstar.fr",
+        "added": "1476052578",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 61,
+        "name": "|FR| CSTAR ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 32797,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5094.png",
+        "epg_channel_id": "cstar.fr",
+        "added": "1576515513",
+        "is_adult": 0,
+        "category_id": "1174",
+        "category_ids": [
+          1174
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      },
+      {
+        "num": 62,
+        "name": "|FR| CSTAR ˢᴰ",
+        "stream_type": "live",
+        "stream_id": 12869,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5094.png",
+        "epg_channel_id": "cstar.fr",
+        "added": "1553356894",
+        "is_adult": 0,
+        "category_id": "1173",
+        "category_ids": [
+          1173
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      }
+    ],
+    [
+      {
+        "num": 63,
+        "name": "|FR| TMC ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 148470,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5103.png",
+        "epg_channel_id": "tmc.fr",
+        "added": "1623851064",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 64,
+        "name": "|FR| TMC HD",
+        "stream_type": "live",
+        "stream_id": 281,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5103.png",
+        "epg_channel_id": "tmc.fr",
+        "added": "1476050728",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 65,
+        "name": "|FR| TMC ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 32796,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5103.png",
+        "epg_channel_id": "tmc.fr",
+        "added": "1576515513",
+        "is_adult": 0,
+        "category_id": "1174",
+        "category_ids": [
+          1174
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      },
+      {
+        "num": 66,
+        "name": "|FR| TMC ˢᴰ",
+        "stream_type": "live",
+        "stream_id": 12770,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5103.png",
+        "epg_channel_id": "tmc.fr",
+        "added": "1553356893",
+        "is_adult": 0,
+        "category_id": "1173",
+        "category_ids": [
+          1173
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      },
+      {
+        "num": 67,
+        "name": "|FR| TMC  1 ˢᴰ",
+        "stream_type": "live",
+        "stream_id": 12771,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5103.png",
+        "epg_channel_id": "tmc.fr",
+        "added": "1553356893",
+        "is_adult": 0,
+        "category_id": "1173",
+        "category_ids": [
+          1173
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      },
+      {
+        "num": 68,
+        "name": "|FR| TMC +1 ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 116309,
+        "stream_icon": "http://138.199.27.237:8080/0tv_logo/5103.png",
+        "epg_channel_id": "tmc.fr",
+        "added": "1613822503",
+        "is_adult": 0,
+        "category_id": "1174",
+        "category_ids": [
+          1174
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      }
+    ],
+    [
+      {
+        "num": 69,
+        "name": "|FR| TF1 SERIES ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 148471,
+        "stream_icon": "http://138.199.27.237:8080/FRANCE/TF1HDFILMSERIES.png",
+        "epg_channel_id": "tf1seriesfilms.fr",
+        "added": "1623851064",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 70,
+        "name": "|FR| TF1 SIERES HD",
+        "stream_type": "live",
+        "stream_id": 285,
+        "stream_icon": "http://138.199.27.237:8080/FRANCE/TF1HDFILMSERIES.png",
+        "epg_channel_id": "tf1seriesfilms.fr",
+        "added": "1476050872",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 71,
+        "name": "|FR| TF1 SIERES",
+        "stream_type": "live",
+        "stream_id": 1240,
+        "stream_icon": "http://138.199.27.237:8080/FRANCE/TF1HDFILMSERIES.png",
+        "epg_channel_id": "tf1seriesfilms.fr",
+        "added": "1483571616",
+        "is_adult": 0,
+        "category_id": "29",
+        "category_ids": [
+          29
+        ],
+        "custom_sid": null,
+        "tv_archive": 1,
+        "direct_source": "",
+        "tv_archive_duration": "2"
+      },
+      {
+        "num": 72,
+        "name": "|FR| TF1 SERIES FILMS ᵁᴴᴰ",
+        "stream_type": "live",
+        "stream_id": 32800,
+        "stream_icon": "http://138.199.27.237:8080/FRANCE/TF1HDFILMSERIES.png",
+        "epg_channel_id": "tf1seriesfilms.fr",
+        "added": "1576515513",
+        "is_adult": 0,
+        "category_id": "1174",
+        "category_ids": [
+          1174
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      },
+      {
+        "num": 73,
+        "name": "|FR| TF1 SERIES / FILMS ˢᴰ",
+        "stream_type": "live",
+        "stream_id": 12774,
+        "stream_icon": "http://138.199.27.237:8080/FRANCE/TF1HDFILMSERIES.png",
+        "epg_channel_id": "tf1seriesfilms.fr",
+        "added": "1553356893",
+        "is_adult": 0,
+        "category_id": "1173",
+        "category_ids": [
+          1173
+        ],
+        "custom_sid": null,
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0
+      }
+    ]
+  ],
+  "currentIndex": 70
+}

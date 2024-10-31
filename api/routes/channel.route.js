@@ -13,11 +13,11 @@ import authenticateToken from '../middleware/verifyToken.js'
 const channelRoute = express.Router()
 channelRoute.use(authenticateToken)
 
-channelRoute.post('/channels', isAdmin, createChannel)
-channelRoute.post('/channels/bulk', isAdmin, createChannels)
-channelRoute.get('/channels', getChannels)
-channelRoute.get('/channels/:id', getChannelById)
-channelRoute.put('/channels/:id', isAdmin, updateChannel)
-channelRoute.delete('/channels/:id', isAdmin, deleteChannel)
+channelRoute.post('', isAdmin, createChannel)
+channelRoute.post('/bulk', isAdmin, createChannels)
+channelRoute.get('', getChannels)
+channelRoute.get('/:id', getChannelById)
+channelRoute.put('/:id', isAdmin, updateChannel)
+channelRoute.delete('/:id', isAdmin, deleteChannel)
 
 export default channelRoute

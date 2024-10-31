@@ -41,6 +41,7 @@ export const AuthProvider = ({ children }) => {
       })
       setUser(response.data)
     } catch (error) {
+      TransformStream()
       console.error('Login error:', error)
     }
   }

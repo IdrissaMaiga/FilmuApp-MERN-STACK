@@ -2,153 +2,163 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import prismaclient from '../lib/prisma.js'
 import dotenv from 'dotenv'
-import { body, validationResult } from 'express-validator'
 
-dotenv.config()
-const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
 
-// Middleware for validation
-export const validateRegister = [
-  body('name').notEmpty().withMessage('Username is required'),
-  body('email').isEmail().withMessage('Invalid email format'),
-  body('password')
-    .matches(passwordRegex)
-    .withMessage(
-      'Password must be at least 8 characters long and contain at least one letter and one number'
-    ),
-  body('role').isIn(['ADMIN', 'EDITOR', 'USER']).withMessage('Invalid role')
-]
+dotenv.config();
 
-// Register Route
-export const register = async (req, res) => {
-  const isAdmin = req.IsAdmin
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() })
-  }
-
-  const { name, email, password } = req.body
-
-  try {
-    // Check if the user already exists by email or username
-    const existingUser = await prismaclient.user.findFirst({
-      where: {
-        OR: [{ email }, { name }]
-      }
-    })
-
-    if (existingUser) {
-      return res
-        .status(400)
-        .json({ message: 'User with this email or username already exists' })
-    }
-
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10)
-
-    // Create a new user and save to DB
-    const newUser = await prismaclient.user.create({
-      data: {
-        name,
-        email,
-        password: hashedPassword
-      },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        phone: true,
-        totalpaid: isAdmin,
-        isactive: isAdmin,
-        isbanned: isAdmin,
-        creationdate: true,
-        role: isAdmin,
-        lastlogin: isAdmin,
-        profilePicture: true
-      }
-    })
-
-    res
-      .status(201)
-      .json({ message: 'User created successfully', user: newUser })
-  } catch (err) {
-    console.error(err)
-    res.status(500).json({ message: 'Failed to create user!' })
-  }
-}
-
-// Login Route
 export const login = async (req, res) => {
-  const { email, password } = req.body
-  const isAdmin = req.IsAdmin
+  const { email, password } = req.body;
+ // console.log("user in")
   try {
-    // Check if the user exists
     const user = await prismaclient.user.findUnique({
       where: { email },
       select: {
+        phone: true,
         id: true,
         name: true,
         email: true,
-        phone: true,
-        totalpaid: isAdmin,
+        SocialMedias: true ,
+        profilePicture: true,
+        balance: true,
+        role: true,
         isactive: true,
+        isFinance: true,
+        subscribtionEndDay: true,
+        subscribtionStartDay: true,
         isbanned: true,
         creationdate: true,
-        lastlogin: isAdmin,
-        profilePicture: true,
-        password: true,
-        role: true
+        lastlogin: true,
+        downloads: true,
+        watching: true,
+        transactions: true,
+        subscription: true,
+        devices: true,
+        subscription: true,
+        password:true
       }
-    })
+       // Include necessary relations upfront
+    });
 
-    if (!user) return res.status(400).json({ message: 'Invalid credentials!' })
-    if (user.isbanned)
-      return res.status(403).json({ message: 'the user is banned' })
-
-    // Check if the password is correct
-    const isPasswordValid = await bcrypt.compare(password, user.password)
-
-    if (!isPasswordValid)
-      return res.status(400).json({ message: 'Invalid credentials!' })
-
-    // Check if the user is banned
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid credentials!' });
+    }
+    
+    // Check for banned users
     if (user.isbanned) {
-      return res
-        .status(400)
-        .json({ message: 'This user is banned. Contact the admin.' })
+      return res.status(403).json({ message: 'User is banned' });
     }
 
-    // Generate JWT token
-    const age = 1000 * 60 * 60 * 24 * 7 // 1 week
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: 'Invalid credentials!' });
+    }
 
-    const secretKey = process.env.JWT_SECRET_KEY || 'fallbackSecretKey'
-    const token = jwt.sign(
-      {
-        user: user,
-        IsAdmin: user.role === 'ADMIN',
-        IsActive: user.isActive == true
-      },
-      secretKey,
-      { expiresIn: age }
-    )
+    const userInfo = await handleUserBonus(user);
+    
+    const payload={id :userInfo.id,
+       
+      }
+    const token = generateToken(payload);
+    
+    res.cookie('accessToken', token, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 7 });
 
-    const { password: userPassword, ...userInfo } = user
 
-    res
-      .cookie('token', token, {
-        httpOnly: true,
-        //secure: process.env.NODE_ENV === 'production',
-        maxAge: age
-      })
-      .status(200)
-      .json(userInfo)
+    
+    res.status(200).json(userInfo);
+    
   } catch (err) {
-    console.error(err)
-    res.status(500).json({ message: 'Failed to login!' })
+    console.error(err);
+    res.status(500).json({ message: 'Failed to login!' });
   }
-}
+};
+
+// Handle user bonus calculation
+const handleUserBonus = async (user) => {
+  const admin = await prismaclient.user.findFirst({ where: { role: 'ADMIN' } });
+  let totalBonus = 0;
+  const currentDate = new Date();
+
+  if (admin) {
+    const completedReferrals = await prismaclient.userReferral.findMany({
+      where: {
+        referrerId: user.id,
+        endDay: { lte: currentDate },
+        isEmpted: false,
+      },
+      include: { subscription: true, referred: { include: { subscription: true } } },
+    });
+
+    for (const referral of completedReferrals) {
+      const referredSubscription = referral.referred.subscription;
+      if (referral.subscription && referredSubscription && referredSubscription.type === referral.subscription.type) {
+        const daysDifference = (new Date(referral.endDay).getTime() - new Date(referral.startDay).getTime()) / (1000 * 60 * 60 * 24);
+        const referralBonus = 0.2 * (referredSubscription.price * (daysDifference / referredSubscription.duration));
+
+        await Promise.all([
+          prismaclient.user.update({ where: { id: admin.id }, data: { balance: { decrement: referralBonus } } }),
+          prismaclient.user.update({ where: { id: user.id }, data: { balance: { increment: referralBonus } } }),
+          prismaclient.userReferral.update({ where: { id: referral.id }, data: { isEmpted: true } }),
+        ]);
+
+        totalBonus += referralBonus;
+      }
+    }
+  }
+
+  return await prismaclient.user.update({
+    where: { id: user.id },
+    data: { lastlogin: new Date() },
+    select: {
+      role: true,
+      id: true,
+      name: true,
+      email: true,
+      phone: true,
+      SocialMedias: true ,
+      profilePicture: true,
+      balance: true,
+      isactive: true,
+      isFinance: true,
+      subscribtionEndDay: true,
+      subscribtionStartDay: true,
+      isbanned: true,
+      creationdate: true,
+      lastlogin: true,
+      downloads: true,
+      watching: true,
+      transactions: true,
+      subscription: true,
+      devices: true,
+      subscription: true,
+      password:true
+    }
+  }).then(userInfo => {
+    if (totalBonus > 0) userInfo.bonus = totalBonus;
+    return userInfo;
+  });
+};
+
+
+// Generate JWT token
+const generateToken = (userInfo) => {
+  const age = 1000 * 60 * 60 * 24 * 7; // 1 week
+  const secretKey = process.env.JWT_SECRET_KEY;
+  
+  return jwt.sign(
+    { user: userInfo },
+    secretKey,
+    { expiresIn: age }
+  );
+
+};
+
+
 
 // Logout Route
-export const logout = (req, res) => {
-  res.clearCookie('token').status(200).json({ message: 'Logout successful' })
-}
+export const logout = async (req, res) => {
+  res.clearCookie('accessToken');
+  res.status(200).json({ message: 'Logout successful' });
+};
+  // Optionally add the token to a blacklist
+  // blacklistedTokens.add(req.cookies.token); // Use a set or database collection
+

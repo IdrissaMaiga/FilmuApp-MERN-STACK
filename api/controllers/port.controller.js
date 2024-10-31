@@ -7,7 +7,7 @@ export const createPort = async (req, res) => {
     const { region, name, resolution, utc, indexer, channelId } = req.body
 
     // Only allow admin to create ports
-    if (!req.IsAdmin) {
+    if (!req.isAdmin) {
       return res.status(403).json({ message: 'Only admin can create a port' })
     }
 
@@ -41,7 +41,7 @@ export const createPorts = async (req, res) => {
     const { ports } = req.body
 
     // Only allow admin to create ports
-    if (!req.IsAdmin) {
+    if (!req.isAdmin) {
       return res.status(403).json({ message: 'Only admin can create ports' })
     }
 
@@ -81,7 +81,13 @@ export const getPorts = async (req, res) => {
       indexer: decrypt(port.indexer)
     }))
 
-    res.status(200).json(decryptedPorts)
+    const encryptedPorts = decryptedPorts.map(port => ({
+      ...port,
+      indexer: encrypt(port.indexer, req.key)
+    }))
+      
+
+    res.status(200).json( encryptedPorts);
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: 'Failed to fetch ports' })
@@ -104,13 +110,36 @@ export const getPortById = async (req, res) => {
     }
 
     port.indexer = decrypt(port.indexer)
-
+    port.indexer= encrypt(port.indexer,req.key)
     res.status(200).json(port)
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: 'Failed to fetch port' })
   }
 }
+export const getPortByIddecrypted = async (req, res) => {
+  try {
+    const { id } = req.params
+    const port = await prisma.port.findUnique({
+      where: { id },
+      include: {
+        Channel: true
+      }
+    })
+
+    if (!port) {
+      return res.status(404).json({ message: 'Port not found' })
+    }
+
+    
+    port.indexer= decrypt(port.indexer, req.key)
+    res.status(200).json(port)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Failed to fetch port' })
+  }
+}
+
 
 // Update a port by ID
 export const updatePort = async (req, res) => {
@@ -119,7 +148,7 @@ export const updatePort = async (req, res) => {
     const { region, name, resolution, utc, indexer, channelId } = req.body
 
     // Only allow admin to update ports
-    if (!req.IsAdmin) {
+    if (!req.isAdmin) {
       return res.status(403).json({ message: 'Only admin can update a port' })
     }
 
@@ -157,7 +186,7 @@ export const deletePort = async (req, res) => {
     const { id } = req.params
 
     // Only allow admin to delete ports
-    if (!req.IsAdmin) {
+    if (!req.isAdmin) {
       return res.status(403).json({ message: 'Only admin can delete a port' })
     }
 

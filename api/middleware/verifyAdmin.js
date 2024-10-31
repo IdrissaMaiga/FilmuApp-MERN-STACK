@@ -5,12 +5,13 @@
 
 export const isAdmin = (req, res, next) => {
   // Check if the user exists and has the role of ADMIN
-  console.log(req.IsAdmin)
-  if (req.IsAdmin) {
+  
+  if (req.isAdmin) {
+    
     // User is an admin, allow access to the admin routes
     next()
   } else {
     // User is not an admin, deny access
-    res.status(403).json({ message: 'Unauthorized: Admin access required' })
+    res.status(403).json({ message: 'Unauthorized: Admin  access required' })
   }
 }

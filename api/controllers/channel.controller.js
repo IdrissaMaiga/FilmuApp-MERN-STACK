@@ -7,7 +7,7 @@ export const createChannel = async (req, res) => {
     const { name, logos, total, category, ports } = req.body;
 
     // Only allow admin to create channels
-    if (!req.IsAdmin) {
+    if (!req.isAdmin) {
       return res.status(403).json({ message: 'Only admin can create a channel' });
     }
 
@@ -44,7 +44,7 @@ export const createChannels = async (req, res) => {
     const { channels } = req.body;
 
     // Only allow admin to create channels
-    if (!req.IsAdmin) {
+    if (!req.isAdmin) {
       return res.status(403).json({ message: 'Only admin can create channels' });
     }
 
@@ -98,8 +98,17 @@ export const getChannels = async (req, res) => {
         indexer: decrypt(port.indexer)
       }))
     }));
+    const encryptedChannels = decryptedChannels.map(channel => ({
+      ...channel,
+      ports: channel.ports.map(port => ({
+        ...port,
+        indexer: encrypt(port.indexer, req.user?.StreamingAccess?.key)
+      }))
+    }));
 
-    res.status(200).json(decryptedChannels);
+    
+
+    res.status(200).json(encryptedChannels);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Failed to fetch channels' });
@@ -129,7 +138,17 @@ export const getChannelById = async (req, res) => {
       }))
     };
 
-    res.status(200).json(decryptedChannel);
+    const encryptedChannels = decryptedChannel.map(channel => ({
+      ...channel,
+      ports: channel.ports.map(port => ({
+        ...port,
+        indexer: encrypt(port.indexer, req.user?.StreamingAccess?.key)
+      }))
+    }));
+
+    
+
+    res.status(200).json(encryptedChannels);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Failed to fetch channel' });
@@ -143,7 +162,7 @@ export const updateChannel = async (req, res) => {
     const { name, logos,  total, category } = req.body;
 
     // Only allow admin to update channels
-    if (!req.IsAdmin) {
+    if (!req.isAdmin) {
       return res.status(403).json({ message: 'Only admin can update a channel' });
     }
 
@@ -174,7 +193,7 @@ export const deleteChannel = async (req, res) => {
     const { id } = req.params;
 
     // Only allow admin to delete channels
-    if (!req.IsAdmin) {
+    if (!req.isAdmin) {
       return res.status(403).json({ message: 'Only admin can delete a channel' });
     }
 

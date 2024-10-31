@@ -7,7 +7,7 @@ export const createSeries = async (req, res) => {
     const { name, description, downloadPrice, seasonData } = req.body
 
     // Only allow admin to create series
-    if (!req.IsAdmin) {
+    if (!req.isAdmin) {
       return res.status(403).json({ message: 'Only admin can create a series' })
     }
 

@@ -5,6 +5,6 @@ import authenticateToken from '../middleware/verifyToken.js'
 const streamRoute = express.Router()
 streamRoute.use(authenticateToken)
 
-streamRoute.get('/stream', getstream)
+streamRoute.get('', getstream)
 
 export default streamRoute

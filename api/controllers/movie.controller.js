@@ -8,7 +8,7 @@ export const createMovie = async (req, res) => {
       req.body
 
     // Only allow admin to create movies
-    if (!req.IsAdmin) {
+    if (!req.isAdmin) {
       return res.status(403).json({ message: 'Only admin can create a movie' })
     }
 
@@ -37,7 +37,7 @@ export const getMovies = async (req, res) => {
   try {
     let movies = []
 
-    if (req.IsAdmin) {
+    if (req.isAdmin) {
       // Admin sees all details
       movies = await prismaclient.movie.findMany({
         include: {
@@ -126,7 +126,7 @@ export const updateMovie = async (req, res) => {
     const { fieldName, fieldValue } = req.body
 
     // Only allow admin to update movies
-    if (!req.IsAdmin) {
+    if (!req.isAdmin) {
       return res.status(403).json({ message: 'Only admin can update a movie' })
     }
 
@@ -153,7 +153,7 @@ export const deleteMovie = async (req, res) => {
     const { id } = req.params
 
     // Only allow admin to delete movies
-    if (!req.IsAdmin) {
+    if (!req.isAdmin) {
       return res.status(403).json({ message: 'Only admin can delete a movie' })
     }
 

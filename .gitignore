@@ -3,6 +3,7 @@
 
 # m3u files
 *.m3u
+*.png
 
 # Image folders
 # Exclude images folder and its content

@@ -13,12 +13,11 @@ import SerieRouter from './routes/serie.router.js'
 import EpisodeRouter from './routes/episode.route.js'
 import portRoute from './routes/port.route.js'
 import channelRoute from './routes/channel.route.js'
-import streamRoute from './routes/stream.route.js'
-import hlsRouter from './routes/hls.route.js'
 const app = express()
-
 import bodyParser from 'body-parser'
-
+import transactionRoute from './routes/transaction.route.js'
+import subscriptionRoute from './routes/subscriptions.router.js'
+import prismaclient from './lib/prisma.js'
 // Increase the limit for JSON payloads
 app.use(bodyParser.json({ limit: '50mb' })) // Adjust '50mb' to the desired size
 
@@ -27,38 +26,54 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
 // Your other middleware and routes here
 app.use(
   cors({
-    origin: [process.env.SERVER_URL, 'http://localhost:5173'],
+    origin: [process.env.SERVER_URL, 'http://localhost:5173',"http://192.168.1.100:5173","http://10.53.73.180:5173"],
     credentials: true
+
   })
 )
 app.use(express.json())
 app.use(cookieParser())
 
-// Authentication routes
+
 app.use('/api/auth', authRoute)
-// serie router
-app.use('/api/series', SerieRouter)
-// episode router
-app.use('/api', EpisodeRouter)
-// User profile routes
+
 app.use('/api/user', profileRoute)
-app.use('/api', channelRoute)
-app.use('/api', portRoute)
-app.use('/api', streamRoute)
 
-// Admin routes
-// app.use('/api/admin', adminRoute);
+app.use('/api/subscription', subscriptionRoute);
 
-// taste routes  normal user can only create ,delete , or update the lastupdated or name field
-app.use('/api', tasteRoute)
-app.use(hlsRouter)
-// Download route
-app.use('/api', downloadRoute)
-// movie route
-app.use('/api', movieRoute)
+app.use('/api/transaction',transactionRoute)
 
-// watching route   user add movie or series to their  watching  the time at witch they where ,also delete and update
-app.use('/api', watchingRoute)
+app.use('/api/channels', channelRoute)
+
+app.use('/api/ports', portRoute)
+
+app.use('/api/series', SerieRouter)
+
+app.use('/api/episode', EpisodeRouter)
+
+app.use('/api/taste', tasteRoute)
+
+app.use('/api/transaction', transactionRoute)
+
+app.use('/api/download', downloadRoute)
+
+app.use('/api/movie', movieRoute)
+
+app.use('/api/watching', watchingRoute)
+
+app.get('/images', async (req, res) => {
+  try {
+    const images = await prismaclient.image.findMany();
+    res.json(images);
+  } catch (error) {
+    console.error("Error fetching images:", error);
+    res.status(500).json({ error: "An error occurred while fetching images" });
+  }
+});
+
+
+
+
 
 app.listen(8800, () => {
   console.log('Server is running!')

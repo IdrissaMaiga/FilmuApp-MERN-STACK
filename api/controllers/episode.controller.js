@@ -8,7 +8,7 @@ export const createEpisode = async (req, res) => {
       req.body
 
     // Only allow admin to create episodes
-    if (!req.IsAdmin) {
+    if (!req.isAdmin) {
       return res
         .status(403)
         .json({ message: 'Only admin can create an episode' })
@@ -44,7 +44,7 @@ export const getEpisodes = async (req, res) => {
   try {
     // Fetch all episodes for admin, only basic details for normal users
     let episodes = []
-    if (req.IsAdmin) {
+    if (req.isAdmin) {
       episodes = await prismaclient.episode.findMany({
         include: {
           Season: true,
@@ -94,7 +94,7 @@ export const getEpisodeById = async (req, res) => {
   try {
     const { id } = req.params
     let episode
-    if (req.IsAdmin) {
+    if (req.isAdmin) {
       episode = await prismaclient.episode.findUnique({
         where: { id },
         include: {
@@ -156,7 +156,7 @@ export const updateEpisode = async (req, res) => {
     const { fieldName, fieldValue } = req.body
 
     // Only allow admin to update episodes
-    if (!req.IsAdmin) {
+    if (!req.isAdmin) {
       return res
         .status(403)
         .json({ message: 'Only admin can update an episode' })
