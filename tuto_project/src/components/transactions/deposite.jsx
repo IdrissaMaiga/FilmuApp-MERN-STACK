@@ -18,12 +18,14 @@ import {
 import { CheckCircleIcon, AttachmentIcon } from '@chakra-ui/icons';
 import { useTransaction } from '../../context/TransactionContext';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/useAuth';
 
 const Deposit = () => {
   const [picture, setPicture] = useState(null);
   const [isCreated, setIsCreated] = useState(false);
   const [error, setError] = useState('');
   const { createDepositTransaction, tloading } = useTransaction();
+  const {means}=useAuth()
   const navigate = useNavigate();
 
   const handleCreateTransaction = async () => {
@@ -53,25 +55,35 @@ const Deposit = () => {
   return (
     <Center minHeight="100vh" bgGradient={bgGradient}  >
      <Tabs colorScheme="teal">
-      <TabList m={0} p={0}> {/* Remove margin and padding */}
-        <Tab>Transaction type {/* the phone number */}{/* the transferlogo */} </Tab>
-      </TabList>
+     <TabList m={0} p={0}>
+    <Tab>
+      {means[0].phone} {/* Display the phone number */}
+      <img src={means[0].logo} alt="Transfer Logo" style={{ height: '20px', marginLeft: '10px' }} /> {/* Display the logo */}
+    </Tab>
+  </TabList>
 
-      <TabPanels m={0} p={0}> {/* Remove margin and padding */}
-        <TabPanel mt={2} p={0}> {/* Remove margin and padding */} 
-       {/* put an image from the db here*/} 
+  <TabPanels m={0} p={0}>
+    <TabPanel mt={2} p={0}>
       <VStack
         spacing={6}
-        w={"100%"}
+        w="100%"
         bg={boxBg}
         p={6}
         borderRadius="md"
         boxShadow="lg"
-        margin={0}
+        m={0}
       >
+       
+       <Text fontSize={{ base: 'xl', md: '2xl' }} fontWeight="bold" color={textColor}>
+        Exemple:
+        </Text>
+       
+        <img src={means[0].exampleimg} alt="Example Image" style={{ width: '100%' }}  /> {/* Display the example image */}
         <Text fontSize={{ base: 'xl', md: '2xl' }} fontWeight="bold" color={textColor}>
           Ajouter une capture de la transaction
         </Text>
+        
+       
 
         {tloading && (
           <Center>

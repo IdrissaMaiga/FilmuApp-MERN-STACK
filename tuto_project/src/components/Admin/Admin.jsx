@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { AdminProvider } from '../../context/AdminContext';
 import { Box, Flex, Tabs, TabList, TabPanels, Tab, TabPanel, useBreakpointValue } from '@chakra-ui/react';
 
@@ -13,6 +13,18 @@ const Admin = () => {
   const padding = useBreakpointValue({ base: 2, md: 4 });
   const height = useBreakpointValue({ base: "auto", md: "100vh" });
 
+  // State to manage the active tab index
+  const [activeTabIndex, setActiveTabIndex] = useState(() => {
+    // Retrieve the active tab index from localStorage or default to 0
+    const savedTabIndex = localStorage.getItem('activeTabIndex');
+    return savedTabIndex ? parseInt(savedTabIndex, 10) : 0;
+  });
+
+  // Effect to save the active tab index to localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem('activeTabIndex', activeTabIndex);
+  }, [activeTabIndex]);
+
   return (
     <AdminProvider>
       <Flex height={height} direction="column">
@@ -26,7 +38,14 @@ const Admin = () => {
             scrollbarWidth: 'none', // Firefox
           }}
         >
-          <Tabs isFitted variant="enclosed" colorScheme="teal" size={useBreakpointValue({ base: 'sm', md: 'md' })}>
+          <Tabs 
+            isFitted 
+            variant="enclosed" 
+            colorScheme="teal" 
+            size={useBreakpointValue({ base: 'sm', md: 'md' })} 
+            index={activeTabIndex} // Set the current tab index
+            onChange={(index) => setActiveTabIndex(index)} // Update state on tab change
+          >
             <TabList mb="1em">
               <Tab>Subscriptions</Tab>
               <Tab>Users</Tab>

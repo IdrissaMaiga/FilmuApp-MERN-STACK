@@ -91,24 +91,16 @@ export const getChannels = async (req, res) => {
       }
     });
 
-    const decryptedChannels = channels.map(channel => ({
-      ...channel,
-      ports: channel.ports.map(port => ({
-        ...port,
-        indexer: decrypt(port.indexer)
-      }))
-    }));
-    const encryptedChannels = decryptedChannels.map(channel => ({
-      ...channel,
-      ports: channel.ports.map(port => ({
-        ...port,
-        indexer: encrypt(port.indexer, req.user?.StreamingAccess?.key)
-      }))
-    }));
+   // const decryptedChannels = channels.map(channel => ({
+   //   ...channel,
+    //  ports: channel.ports.map(port => ({
+   //     ...port,
+   //     indexer: decrypt(port.indexer)
+   //   }))
+   // }));
 
-    
 
-    res.status(200).json(encryptedChannels);
+    res.status(200).json(channels);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Failed to fetch channels' });
@@ -130,25 +122,18 @@ export const getChannelById = async (req, res) => {
       return res.status(404).json({ message: 'Channel not found' });
     }
 
-    const decryptedChannel = {
-      ...channel,
-      ports: channel.ports.map(port => ({
-        ...port,
-        indexer: decrypt(port.indexer)
-      }))
-    };
+  //  const decryptedChannel = {
+   //   ...channel,
+   //   ports: channel.ports.map(port => ({
+  //      ...port,
+  //      indexer: decrypt(port.indexer)
+   //   }))
+   // };
 
-    const encryptedChannels = decryptedChannel.map(channel => ({
-      ...channel,
-      ports: channel.ports.map(port => ({
-        ...port,
-        indexer: encrypt(port.indexer, req.user?.StreamingAccess?.key)
-      }))
-    }));
-
+  
     
 
-    res.status(200).json(encryptedChannels);
+    res.status(200).json(channel);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Failed to fetch channel' });

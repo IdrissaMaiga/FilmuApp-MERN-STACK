@@ -26,7 +26,6 @@ model User {
   name                 String?
   email                String          @unique
   role                 Role            @default(USER)
-  token                String?
   phone                String?
   StreamingAccess      Json?
   SocialMedias         Json?
@@ -39,7 +38,6 @@ model User {
   subscribtionStartDay DateTime?
   isbanned             Boolean         @default(false)
   creationdate         DateTime        @default(now())
-  lastlogin            DateTime?
   resetCode            String?
   isFinance            Boolean         @default(false)
   codeExpiresAt        DateTime?
@@ -49,6 +47,7 @@ model User {
   refferedCode         String?
   isLogined           Boolean  @default(false)
   devices              Int             @default(0)
+  devicesInfo          Device[]
   downloadnumber       Int             @default(0)
   downloads            Downloads[]
   watching             Watching[]
@@ -58,6 +57,20 @@ model User {
   imgcount            Int @default(0)
   referralsMade        UserReferral[]  @relation("ReferralsMade")
   referralsReceived    UserReferral[]  @relation("ReferralsReceived")
+}
+model Device {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String    @db.ObjectId
+  user         User      @relation(fields: [userId], references: [id])
+  token        String  @unique
+  deviceType   String?
+  browser      String?
+  os           String?
+  location     String?
+  ipAddress    String?                                                                                                                                                
+  loginTime DateTime  @default(now())
+  isActive     Boolean   @default(false)
+  isFlagged    Boolean   @default(false)
 }
 
 model UserReferral {
@@ -90,18 +103,7 @@ enum TypeMoney{
   OrangeMoney
   MoovMoney
 }
-enum UseFor{
-  SiteLogo
-  Transaction
-  Example
-}
-model Image{
-  id String  @id @default(auto()) @map("_id") @db.ObjectId
-  phone String?
-  url String?
-  for UseFor
-  name String ?
-}
+
 model Moneyflow{
   id String  @id @default(auto()) @map("_id") @db.ObjectId
   amount         Float @default(0)
@@ -126,6 +128,7 @@ model transferData{
   Id     String?
   fee    Int @default(0)
   balance Int @default(0)
+  mean           TypeMoney?
 }
 
 model Downloads {
@@ -174,6 +177,7 @@ model Transaction {
    reversed     Boolean   @default(false)
   createdAt    DateTime  @default(now())
   unit Int  @default (0)
+  mean           TypeMoney?
   @@unique([id, userId]) // Compound unique constraint
  
 }

@@ -13,6 +13,7 @@ import {
   Grid,
   useColorModeValue,
   Switch,
+  Center
 } from '@chakra-ui/react';
 import { useAdmin } from '../../context/AdminContext';
 
@@ -75,7 +76,7 @@ const TransactionsPanel = () => {
   
 
   return (
-    <Box p={5} bg={bg} color={textColor} borderRadius="md" maxWidth="800px" mx="auto" mt={"20"}>
+    <Box p={5} bg={bg} color={textColor} borderRadius="md" maxWidth="800px"  mx="auto" mt={"20"}>
       <Heading as="h2" size="lg" color={textColor} mb={4}>
         Transactions
       </Heading>

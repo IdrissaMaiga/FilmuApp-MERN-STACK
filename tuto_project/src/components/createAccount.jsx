@@ -24,7 +24,7 @@ const EmailVerification = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [countryCode, setCountryCode] = useState('+1'); // Default to +1
+  const [countryCode, setCountryCode] = useState('+223'); // Default to +1
   const { loading, verifyEmailAndCreateAccount, sendVerificationCode } = useAuth();
   const [isCodeSent, setIsCodeSent] = useState(false);
   const navigate = useNavigate();
@@ -91,7 +91,8 @@ const EmailVerification = () => {
   const inputBg = useColorModeValue('white', 'black.200');
   const inputBorderColor = useColorModeValue('gray.300', '#444');
   const inputPlaceholderColor = useColorModeValue('gray.500', 'gray.500');
-
+  const bg =useColorModeValue('gray.200', 'gray.600')
+  const bghover=useColorModeValue('gray.300', 'gray.700') 
   return (
     <Center minHeight="100vh" bgGradient={bgGradient} px={4}>
       <VStack
@@ -168,7 +169,7 @@ const EmailVerification = () => {
               </FormControl>
 
               <FormControl isRequired>
-                <FormLabel color={textColor}>Contact</FormLabel>
+                <FormLabel color={textColor}>Numero Orange!!</FormLabel>
                 <Flex>
                   <Select
                     value={countryCode}
@@ -249,8 +250,8 @@ const EmailVerification = () => {
 
               <Button
                 onClick={handleReset}
-                bg={useColorModeValue('gray.200', 'gray.600')}
-                _hover={{ bg: useColorModeValue('gray.300', 'gray.700') }}
+                bg={bg}
+                _hover={{ bghover}}
                 variant="outline"
                 color={textColor}
                 width="100%"

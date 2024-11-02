@@ -5,7 +5,7 @@ import { Center,Spinner } from "@chakra-ui/react";
 
 const Protected = ({ children }) => {
   const { user, loading } = useAuth();
-  console.log(user);
+  
   
   
 

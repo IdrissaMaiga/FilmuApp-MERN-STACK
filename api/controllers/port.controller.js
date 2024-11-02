@@ -76,18 +76,13 @@ export const getPorts = async (req, res) => {
       }
     })
 
-    const decryptedPorts = ports.map(port => ({
-      ...port,
-      indexer: decrypt(port.indexer)
-    }))
+   // const decryptedPorts = ports.map(port => ({
+    //  ...port,
+   //   indexer: decrypt(port.indexer)
+    //}))
 
-    const encryptedPorts = decryptedPorts.map(port => ({
-      ...port,
-      indexer: encrypt(port.indexer, req.key)
-    }))
-      
 
-    res.status(200).json( encryptedPorts);
+    res.status(200).json( ports);
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: 'Failed to fetch ports' })
@@ -110,35 +105,13 @@ export const getPortById = async (req, res) => {
     }
 
     port.indexer = decrypt(port.indexer)
-    port.indexer= encrypt(port.indexer,req.key)
     res.status(200).json(port)
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: 'Failed to fetch port' })
   }
 }
-export const getPortByIddecrypted = async (req, res) => {
-  try {
-    const { id } = req.params
-    const port = await prisma.port.findUnique({
-      where: { id },
-      include: {
-        Channel: true
-      }
-    })
 
-    if (!port) {
-      return res.status(404).json({ message: 'Port not found' })
-    }
-
-    
-    port.indexer= decrypt(port.indexer, req.key)
-    res.status(200).json(port)
-  } catch (error) {
-    console.error(error)
-    res.status(500).json({ message: 'Failed to fetch port' })
-  }
-}
 
 
 // Update a port by ID

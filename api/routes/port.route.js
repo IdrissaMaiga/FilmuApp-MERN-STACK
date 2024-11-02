@@ -6,7 +6,6 @@ import {
   getPortById,
   updatePort,
   deletePort,
-  getPortByIddecrypted
 } from '../controllers/port.controller.js'
 import { isAdmin } from '../middleware/verifyAdmin.js'
 import authenticateToken from '../middleware/verifyToken.js'
@@ -17,7 +16,7 @@ portRoute.use(authenticateToken)
 portRoute.post('', isAdmin, createPort)
 portRoute.post('/bulk', isAdmin, createPorts)
 portRoute.get('', getPorts)
-portRoute.get('/portsdecrypt/:id', getPortByIddecrypted)
+portRoute.get('/portsdecrypt/:id', getPortById)
 portRoute.put('/:id', isAdmin, updatePort)
 portRoute.delete('/:id', isAdmin, deletePort)
 

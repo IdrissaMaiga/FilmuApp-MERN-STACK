@@ -15,10 +15,13 @@ export const TransactionProvider = ({ children }) => {
     const createSubscriptionTransaction = async (data) => {
       setLoading(true); // Start loading
       try {
-        await api.post('/api/transaction/subscription', data,{
+       const response=  await api.post('/api/transaction/subscription', data,{
             withCredentials: true,
           });
-        handleSuccess("Subscription transaction created successfully.");
+          if (response)
+        {handleSuccess("Subscription transaction created successfully.");
+        return true}
+        else throw new Error("no sub")
       } catch (error) {
         handleError(error);
       } finally {

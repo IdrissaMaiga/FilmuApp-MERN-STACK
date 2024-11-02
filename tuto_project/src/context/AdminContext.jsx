@@ -13,6 +13,8 @@ export const AdminProvider = ({ children }) => {
     const [jsonInput, setJsonInput] = useState('');
     const [transactions, setTransactions] = useState([]);
     const [moneyflows, setMoneyflow] = useState([]);
+  
+    
     const fetchSubscriptions = async () => {
         setLoading(true); // Set loading to true before fetching
         
@@ -30,6 +32,7 @@ export const AdminProvider = ({ children }) => {
         fetchSubscriptions(); // Fetch subscriptions on component mount
       }, []);
 // Assuming setLoading is available from context or props
+
 
 // Function to update a subscription by ID
 const updateSubscription = async (id, fieldName, fieldValue) => {
@@ -55,7 +58,11 @@ const updateSubscription = async (id, fieldName, fieldValue) => {
       setLoading(false); // End loading
     }
   };
+
+
+
   
+
 
 // Function to delete a subscription by ID
 const deleteSubscription = async (id) => {
@@ -205,6 +212,7 @@ const deleteSubscription = async (id) => {
       updateMoneyflow,
       deleteMoneyflow,
       getAllTransactions,
+      
       transactions,
       user}}>
       {user?.role==="ADMIN"?children:<Navigate to={"/"}/>}

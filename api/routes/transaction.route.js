@@ -12,7 +12,8 @@ import {
   getAllMoneyFlow,
   uploadSingleImage,
   getUserTransactions,
-  getAllTransactions
+  getAllTransactions,
+  createDepositTransactionByAdmin
 } from '../controllers/transaction.controller.js';
 import authenticateToken from '../middleware/verifyToken.js';
 import { isAdmin } from '../middleware/verifyAdmin.js';
@@ -41,6 +42,7 @@ transactionRoute.post('/retrait',authenticateToken,  createRetraitTransaction);
 
 transactionRoute.get('/mine',authenticateToken ,getUserTransactions); 
 transactionRoute.get('/all',authenticateToken, isAdmin,getAllTransactions); 
+transactionRoute.post('/admindeposit',authenticateToken, isAdmin,createDepositTransactionByAdmin); 
 
 // Admin-restricted transaction routes
 transactionRoute.post('/reverse', isAdmin, reverseTransaction);

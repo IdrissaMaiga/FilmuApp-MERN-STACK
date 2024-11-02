@@ -22,6 +22,8 @@ import Admin from "./components/Admin/Admin.jsx";
 import Deposit from "./components/transactions/deposite.jsx";
 import TransactionPanel from "./components/transactions/usertransaction.jsx";
 import CreateMoneyFlow from "./components/transactions/agenttransaction.jsx";
+import UserProfile from "./components/user.jsx";
+import SubscriptionTransaction from "./components/transactions/subcription.jsx";
 
 
 const router = createBrowserRouter([
@@ -54,8 +56,16 @@ const router = createBrowserRouter([
         element:<Admin/> ,
       },
       {
+        path: "/profile",
+        element:<UserProfile/> ,
+      },
+      {
         path: "/transaction",
         element:<TransactionPanel/>,
+      },
+      {
+        path: "/subscribe",
+        element:<SubscriptionTransaction/>,
       },
       {
         path: "/admin/transaction",

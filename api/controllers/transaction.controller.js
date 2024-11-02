@@ -6,7 +6,10 @@ import { fileURLToPath } from 'url';
 import multer from 'multer';
 import fs from 'fs';
 import Tesseract from 'tesseract.js';
-import { type } from "os";
+
+
+
+
 
 
 export const createsubscriptionTransaction = async (req, res) => {
@@ -19,12 +22,14 @@ export const createsubscriptionTransaction = async (req, res) => {
       include: { subscription: true }
     });
 
+    if (!type) return res.status(404).json({ error: "Define your type" });
     if (!user) return res.status(404).json({ error: "User not found" });
+    if (!unit || unit < 0) return res.status(400).json({ error: "Unit is not well set" });
 
-    const currentSubscription = user.subscription;
+    let currentSubscription = user.subscription;
     const currentDate = DateTime.now();
-    let discount = 1; // default no discount
-
+    let discount = 1; // Default no discount
+    console.log(currentSubscription)
     // Check if referred code matches any existing user's referral code
     if (refferedCode) {
       const referringUser = await prismaclient.user.findUnique({
@@ -35,33 +40,45 @@ export const createsubscriptionTransaction = async (req, res) => {
         discount = 0.85; // 15% discount
       }
     }
+    const subscriptionEndDay = (user.subscribtionEndDay <=currentDate)
+    ? currentDate
+    : DateTime.fromJSDate(user.subscribtionEndDay);
 
-    // Check if user is extending an existing subscription of the same type
-    if (currentSubscription && currentSubscription.type === type) {
-      const subscriptionEndDay = DateTime.fromJSDate(user.subscribtionEndDay);
-      const newEndDate = subscriptionEndDay.plus({ days: currentSubscription.duration * unit });
-      const transactionAmount = currentSubscription.price * unit * discount;
+   
 
+    // Handle existing subscription
+    if ((currentSubscription && currentSubscription.type === type)||subscriptionEndDay==currentDate) 
+      { const sub= await prismaclient.subscription.findUnique({
+        where:{type}
+      })
+      if (!currentSubscription) currentSubscription=sub
+      console.log(currentSubscription)
+        const newEndDate = subscriptionEndDay.plus({ days: currentSubscription.duration * unit });
+        const transactionAmount = currentSubscription.price * unit * discount;
       // Check if user balance can afford the transaction
       if (user.balance < transactionAmount) {
         return res.status(400).json({ error: "Insufficient balance" });
       }
-      const admin= await prismaclient.user.findFirst({
-        where: { role:"ADMIN"},
+
+      const admin = await prismaclient.user.findFirst({
+        where: { role: "ADMIN" },
+      });
       
-      })
-      ;if (!admin)return res.status(400).json({ error: "imposible transaction" });
-        await prismaclient.user.update({
-          where: { id: admin.id },
-          data: {
-            balance: { increment: transactionAmount },
-          },
-        });
+      if (!admin) return res.status(400).json({ error: "Impossible transaction" });
+
+      await prismaclient.user.update({
+        where: { id: admin.id },
+        data: {
+          balance: { increment: transactionAmount },
+        },
+      });
+
       // Extend the current subscription
       await prismaclient.user.update({
         where: { id: userId },
         data: {
           balance: { decrement: transactionAmount },
+          subscribtionStartDay:subscriptionEndDay,
           subscribtionEndDay: newEndDate.toJSDate(),
           isactive: true,
         }
@@ -88,85 +105,16 @@ export const createsubscriptionTransaction = async (req, res) => {
           data: {
             referrerId: referringUser.id,
             referredId: userId,
-            type:currentSubscription.type,
+            type: currentSubscription.type,
             startDay: currentDate.toJSDate(),
             endDay: newEndDate.toJSDate()
           }
         });
       }
-
+   
       return res.status(200).json({ message: "Subscription extended successfully", transaction });
-    } else {
-      // Creating a new subscription if no existing subscription or if a different type
-      const subscription = await prismaclient.subscription.findUnique({
-        where: { type }
-      });
-
-      if (!subscription) {
-        return res.status(404).json({ error: "Subscription type not found" });
-      }
-
-      const transactionAmount = subscription.price * unit * discount;
-
-      if (user.balance < transactionAmount) {
-        return res.status(400).json({ error: "Insufficient balance" });
-      }
-
-      const startDate = currentDate.toJSDate();
-      const endDate = currentDate.plus({ days: subscription.duration * unit }).toJSDate();
-      const admin= await prismaclient.user.findFirst({
-        where: { role:"ADMIN"},
-
-      })
-      ;if (!admin)return res.status(400).json({ error: "imposible transaction" });
-        await prismaclient.user.update({
-          where: { id: admin.id },
-          data: {
-            balance: { increment: transactionAmount },
-          },
-        });
-      await prismaclient.user.update({
-        where: { id: userId },
-        data: {
-          balance: { decrement: transactionAmount },
-          subscriptionId: subscription.id,
-          subscribtionStartDay: startDate,
-          subscribtionEndDay: endDate,
-          isactive: true,
-          devices: subscription.devices
-        }
-      });
-
-      // Create the transaction for the new subscription
-      const transaction = await prismaclient.transaction.create({
-        data: {
-          userId,
-          amount: -transactionAmount,
-          isApproved: true,
-          isPending: false,
-          isRetrait: false,
-          transactionType: "ABON",
-          unit,
-          phonenumber: user.phone,
-          subscriptionId: subscription.id,
-        }
-      });
-
-      // Create referral relation if applicable
-      // Create referral relation if applicable
-if (refferedCode && referringUser) {
-  await prismaclient.userReferral.create({
-    data: {
-      referrerId: referringUser.id,
-      referredId: userId,
-      startDay: startDate,
-      type:currentSubscription.type,
-      endDay: endDate
-    }
-  });
-}
-      return res.status(201).json({ message: "Subscription created successfully", transaction });
-    }
+    } 
+    else return res.status(400).json({ error: "not the same type wait for end " });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal server error" });
@@ -486,14 +434,14 @@ export const uploadSingleImage = (req, res, next) => {
               .then(async({ data: { text } }) => {
                 const cleanedText = text.replace(/\s+/g, ' ').trim();
                 // Regular expression to match "transfer sent" transactions
-                const transferSentRegex = /Votre transfert de (\d+) FCFA vers le (\d+) a reussi\. Frais: (\d+) FCFA\. Nouveau solde:(\d+) FCFA\. ID:([\w.]+)\. OFM MALI/g;
+                const transferSentRegex = /Votre transfert de (\d+) FCFA vers le (\d+) a reussi\. Frais: (\d+) FCFA\. Nouveau solde:(\d+) FCFA\. ID:([\w.]+)\. ([\w.]+) MALI/g;
                 
                 // Regular expression to match "transfer received" transactions
                 const transferReceivedRegex = /Vous avez recu un transfert de (\d+) FCFA du (\d+)\. ID:\s*([\w.]+)\./g;
-                
+               let Meamlast;
                 // Extracting "transfer sent" transactions
                 for (const match of cleanedText.matchAll(transferSentRegex)) {
-                  const [_, amount, phoneNumber, fee, newBalance, id] = match;
+                  const [_, amount, phoneNumber, fee, newBalance, id,Mean] = match;
                 // Save "Transfer Sent" transaction to the database
                   await prismaclient.transferData.create({
                     data: {
@@ -502,9 +450,11 @@ export const uploadSingleImage = (req, res, next) => {
                       phone: phoneNumber || null,
                       Id: id.toUpperCase(),
                       fee: parseInt(fee),
-                      balance: parseInt(newBalance)
+                      balance: parseInt(newBalance),
+                      mean:Mean
                     }
                   });
+                  Meamlast=Mean
                 }
                 // Extracting "transfer received" transactions
                 for (const match of cleanedText.matchAll(transferReceivedRegex)) {
@@ -574,6 +524,7 @@ export const uploadSingleImage = (req, res, next) => {
                 phonenumber: tdata.phone || req.user.phone,
                 details: details,
                 unit: 1,
+                mean:Meamlast=="OFM"?"OrangeMoney":undefined
               },
             });
         
@@ -685,7 +636,7 @@ const reverseTransactionEffects = async (transaction, user) => {
   if (!admin)throw new Error("impossible transaction")
   switch (transactionType) {
     case "ABON":  // Subscription transaction reversal
-      const subscriptionDaysToRevert = unit * subscription.duration;
+      const subscriptionDaysToRevert = transaction.unit * subscription.duration;
       const reversedEndDate = DateTime.fromJSDate(user.subscribtionEndDay).minus({ days: subscriptionDaysToRevert });
     
         await prismaclient.user.update({
@@ -794,7 +745,7 @@ export const createMoneyflowoabsole = async (req, res) => {
   }
 
   // Destructure the necessary fields from the request body
-  const { amount, phonenumeber,  ID, type } = req.body;
+  const { amount, phonenumeber,  ID, type , mean } = req.body;
 
   // Validate the required fields
   if (!amount  || !ID || !type) {
@@ -814,7 +765,8 @@ export const createMoneyflowoabsole = async (req, res) => {
         phonenumeber: phonenumeber || null,
         isApproved: true,  // Default approval status; adjust if necessary
         ID: ID.toUpperCase(),  // Normalize ID for consistency
-        type
+        type,
+        mean
       }
     });
 
@@ -946,16 +898,19 @@ export const createMoneyflow = async (req, res) => {
             type,
           },
         });
-        await prismaclient.transaction.update({
-          where: { id: pendingTransaction.id },
-          data: { isApproved: true, isPending: false },
-        });
+
 
         if (pendingTransaction.transactionType === "DEPO") {
           console.log("DEPO")
           await prismaclient.user.update({
             where: { id: req.userId },
             data: { balance: { increment: Math.abs(amount) } },
+          });
+          await prismaclient.transaction.update({
+            where: {
+              id:  pendingTransaction.id ,  // Exclude the confirmed transaction
+            },
+            data: { amount:amount ,isApproved: true, isPending: false },
           });
           await prismaclient.transaction.updateMany({
             where: {
@@ -969,12 +924,7 @@ export const createMoneyflow = async (req, res) => {
             },
             data: { isCanceled: true,isPending: false,amount:amount },
           });
-          await prismaclient.transaction.update({
-            where: {
-              id:  pendingTransaction.id ,  // Exclude the confirmed transaction
-            },
-            data: { amount:amount },
-          });
+          
         } else {
           if (!id) {
             return { error: "Missing required field:  id incase of deposit", entry };
@@ -982,6 +932,12 @@ export const createMoneyflow = async (req, res) => {
           await prismaclient.user.update({
             where: { id: req.userId },
             data: { balance: { decrement: Math.abs(amount) } },
+          });
+          await prismaclient.transaction.update({
+            where: {
+              id:  pendingTransaction.id ,  // Exclude the confirmed transaction
+            },
+            data: { amount:amount,ID:ID ,isApproved: true, isPending: false},
           });
           await prismaclient.transaction.updateMany({
             where: {
@@ -995,12 +951,7 @@ export const createMoneyflow = async (req, res) => {
             data: { isCanceled: true,isPending: false },
           });
         }
-        await prismaclient.transaction.update({
-          where: {
-            id:  pendingTransaction.id ,  // Exclude the confirmed transaction
-          },
-          data: { amount:amount,ID:ID },
-        });
+        
         console.log(pendingTransaction.id)
         
       }
@@ -1177,3 +1128,55 @@ export const getAllTransactions = async (req, res) => {
   }
 };
 
+export const createDepositTransactionByAdmin = async (req, res) => {
+  // Check if the user has admin privileges
+  if (!req.isAdmin) {
+    return res.status(403).json({ error: "Admin privileges required" });
+  }
+
+  const { userId, amount,  transactionType = "DEPO"} = req.body;
+
+  // Validate required fields
+  if (!userId || !amount ) {
+    return res.status(400).json({ error: "userId, amount are required" });
+  }
+
+  try {
+    // Check if user exists
+    const user = await prismaclient.user.findUnique({
+      where: { id: userId }
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Create the transaction
+    const transaction = await prismaclient.transaction.create({
+      data: {
+        userId: user.id,
+        amount:Math.abs(parseFloat(amount)) ,
+        transactionType,
+        details: [],
+        isApproved: true,   // Marking as approved directly since admin is creating it
+        isPending: false,
+        onlyAdminSee: true, // Visible only to admin
+        ID: `DEPO-${Date.now()}-${Math.floor(Math.random() * 10000)}byAdmin`,
+        phonenumber:"ADMINDEPO" // Unique transaction ID
+      }
+    });
+
+    // Update the user's balance
+    await prismaclient.user.update({
+      where: { id: user.id },
+      data: {
+        balance: user.balance + Math.abs(parseFloat(amount))
+      }
+    });
+
+    res.status(201).json({ message: "Deposit transaction created successfully", transaction });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};

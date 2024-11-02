@@ -148,7 +148,7 @@ export const verifyEmailCode = async (req, res) => {
   }
 
   const { email,newPassword, code, phone,countryCode } = req.body;
-  const phoneNumber=`${countryCode}${phone}`
+  const phoneNumber=`${countryCode} ${phone}`
 
   if (!email) {
    
@@ -194,13 +194,17 @@ export const verifyEmailCode = async (req, res) => {
       where: { email },
       data: updateData,
     });
-    await prismaclient.user.create({
+   const newuser= await prismaclient.user.create({
       data:{
         email,
         phone:phoneNumber,
         password: hashedPassword 
       }
     })
+    await prismaclient.user.update({
+      where: { email },
+      data: {refferalCode:newuser.id},
+    });
 
     return res.status(200).json({ message: 'Email verified successfully' });
   } catch (err) {
@@ -428,15 +432,11 @@ export const updateProfileField = async (req, res) => {
     const updateUserId = isAdmin ? userToUpdate.id : userId;
 
     // Role-based field update permissions
-    const userAllowedFields = ['phone', 'name', 'profilePicture'];
-    const agentAllowedFields = [...userAllowedFields, 'SocialMedias'];
+    const userAllowedFields = ['phone', 'name','SocialMedias'];
+
     
     if (isUser && !userAllowedFields.includes(fieldName)) {
-      return res.status(403).json({ message: 'Access denied' });
-    }
-
-    if (isAgent && !agentAllowedFields.includes(fieldName)) {
-      return res.status(403).json({ message: 'Access denied' });
+      return res.status(403).json({ message: 'Access denied field name wrong' });
     }
 
     if (isAdmin && (fieldName === 'role' || fieldName === 'isFinance') && code !== 'idrissaAsAdmin') {
@@ -490,10 +490,13 @@ export const getProfile = async (req, res) => {
       isactive: true,
       subscribtionEndDay: true,
       subscribtionStartDay: true,
+      subscription:true,
       isbanned: true,
+      SocialMedias:true,
       creationdate: true,
-      lastlogin: true,
-      subscription: true,
+      StreamingAccess:true,
+      refferalCode:true,
+      devicesInfo:true,
       isFinance:true,
       role:true,
       devices: true,
@@ -582,6 +585,7 @@ export const getUserAll = async (req, res) => {
 
     // Define the base select fields
     const baseSelect = {
+      id:true,
       name: true,
       email: true,
       phone: true,
@@ -593,10 +597,10 @@ export const getUserAll = async (req, res) => {
       subscribtionStartDay: true,
       isbanned: true,
       creationdate: true,
-      lastlogin: true,
+      StreamingAccess:true,
+      referralsMade:true,
       subscription: true,
       devices: true,
-      token:true,
       taste: {
         select: {
           name: true,
@@ -893,5 +897,33 @@ export const OffUser = async (req, res) => {
   } catch (err) {
     console.error(err)
     res.status(500).json({ message: 'Failed to ban user' })
+  }
+}
+
+// Flag a device as suspicious
+export const flagDevice = async (req, res)=> {
+  const { deviceId } = req.body;
+  const userId = req.userId;
+
+  try {
+    // Update the device record, setting isFlagged to true
+    const updatedDevice = await prismaclient.device.updateMany({
+      where: {
+        id: deviceId,
+        userId: userId, // Ensure the device belongs to the requesting user
+        isActive: true
+      },
+      data: {
+        isFlagged: true
+      }
+    });
+
+    if (updatedDevice.count === 0) {
+      return res.status(404).json({ message: 'Device not found or already inactive' });
+    }
+
+    res.status(200).json({ message: 'Device flagged successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error flagging device', error });
   }
 }

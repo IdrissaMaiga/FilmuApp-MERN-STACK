@@ -7,7 +7,7 @@ import dotenv from 'dotenv'
 dotenv.config();
 
 export const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password,deviceInfo } = req.body;
  // console.log("user in")
   try {
     const user = await prismaclient.user.findUnique({
@@ -27,9 +27,9 @@ export const login = async (req, res) => {
         subscribtionStartDay: true,
         isbanned: true,
         creationdate: true,
-        lastlogin: true,
         downloads: true,
         watching: true,
+        devicesInfo:true,
         transactions: true,
         subscription: true,
         devices: true,
@@ -53,17 +53,18 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: 'Invalid credentials!' });
     }
 
+   
+    // Store device information
+   
+
     const userInfo = await handleUserBonus(user);
     
     const payload={id :userInfo.id,
        
       }
     const token = generateToken(payload);
-    
+    registerDevice(userInfo, deviceInfo, token)
     res.cookie('accessToken', token, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 7 });
-
-
-    
     res.status(200).json(userInfo);
     
   } catch (err) {
@@ -71,6 +72,56 @@ export const login = async (req, res) => {
     res.status(500).json({ message: 'Failed to login!' });
   }
 };
+
+
+async function registerDevice(userInfo, deviceInfo, token) {
+  const deviceData = {
+    userId: userInfo.id,
+    deviceType: deviceInfo.deviceType,
+    browser: deviceInfo.browser,
+    os: deviceInfo.os,
+    location: deviceInfo.location,
+    ipAddress: deviceInfo.ipAddress,
+    loginTime: new Date(),
+    isActive: true,
+    token: token
+  };
+
+  // Fetch all active devices for the user
+  const activeDevices = await prismaclient.device.findMany({
+    where: {
+      userId: userInfo.id,
+      isActive: true
+    },
+    orderBy: {
+      loginTime: 'asc' // Oldest login time first
+    }
+  });
+  
+  // If the user has reached the maximum allowed devices
+  if (activeDevices.length === userInfo.devices) {
+    // Find the oldest device (the first one due to ascending order) and delete it
+    const oldestDevice = activeDevices[0];
+    await prismaclient.device.delete({
+      where: {
+        id: oldestDevice.id
+      }
+    });
+   
+  }
+
+  // Now add the new device entry
+ const device = await prismaclient.device.create({
+    data: {
+      ...deviceData
+    }
+  });
+  
+  return {
+    message: 'Device registered successfully',
+    device: device
+  };
+}
 
 // Handle user bonus calculation
 const handleUserBonus = async (user) => {
@@ -105,9 +156,8 @@ const handleUserBonus = async (user) => {
     }
   }
 
-  return await prismaclient.user.update({
+  return await prismaclient.user.findUnique({
     where: { id: user.id },
-    data: { lastlogin: new Date() },
     select: {
       role: true,
       id: true,
@@ -123,11 +173,11 @@ const handleUserBonus = async (user) => {
       subscribtionStartDay: true,
       isbanned: true,
       creationdate: true,
-      lastlogin: true,
       downloads: true,
       watching: true,
       transactions: true,
       subscription: true,
+      devicesInfo:true,
       devices: true,
       subscription: true,
       password:true
@@ -156,6 +206,13 @@ const generateToken = (userInfo) => {
 
 // Logout Route
 export const logout = async (req, res) => {
+  const token = req.cookies.accessToken; // Retrieve token from cookies
+  prismaclient.device.delete({
+    where: {
+      token: token,
+      isFlagged:true
+    }
+  });
   res.clearCookie('accessToken');
   res.status(200).json({ message: 'Logout successful' });
 };

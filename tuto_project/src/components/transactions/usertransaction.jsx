@@ -23,6 +23,7 @@ import {
   ModalFooter,
   HStack,
   Wrap,
+  Center,
   WrapItem,
   useDisclosure,
   IconButton,
@@ -75,18 +76,20 @@ const TransactionsPanel = () => {
   }, [transactions, sortOption]);
 
   const getStatus = (transaction) => {
-    if (transaction.isApproved) return 'Approuvé';
+    if (transaction.reversed) return 'retourné';
     if (transaction.isPending) return 'En attente';
     if (transaction.isCanceled) return 'Annulé';
     return 'Inconnu';
   };
 
   const getColor = (transaction) => {
+    if (transaction.reversed) return 'purple.100';
     if (transaction.isApproved) return 'green.100';
     if (transaction.isPending) return 'yellow.100';
     if (transaction.isCanceled) return 'pink.100';
     return 'white';
   };
+
 
   const uniqueTransactionTypes = ['Tous les types', 'createdAt', ...new Set(transactions.map((t) => t.transactionType))];
 
@@ -101,9 +104,14 @@ const TransactionsPanel = () => {
     }) || (getStatus(transaction) && getStatus(transaction).toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
-  return (
-    <VStack>
-      <Wrap mt="8" mb="-20" spacing={2} align="baseline" justify="space-between">
+  return (<>
+    {tloading ? (
+      <Center>
+        <Spinner thickness="4px" speed="0.75s" color="yellow.400" size="xl" />
+      </Center>
+    ):
+    (<VStack>
+      <Wrap mt="8" mb="-20" p={2} spacing={2} align="baseline" justify="space-between">
       <WrapItem width={{ base: '100%', md: 'auto' }}>
           <Button
             as="a"
@@ -154,7 +162,7 @@ const TransactionsPanel = () => {
         </WrapItem>
       </Wrap>
 
-      <Box p={5} bg={bg} color={textColor} borderRadius="md" maxWidth="800px" mx="auto" mt="20">
+      <Box p={5} bg={bg} color={textColor} borderRadius="md" mt="20">
         <Heading as="h2" size="lg" color={textColor} mb={4}>
           <MdPayment style={{ display: 'inline', marginRight: '8px' }} />
           Transactions
@@ -220,7 +228,7 @@ const TransactionsPanel = () => {
         ) : (
           <Box borderTop="1px solid #ddd" pt={2}>
             {filteredTransactions.length ? (
-              <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={4}>
+              <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' ,lg:'repeat(4, 1fr)' }} gap={4}>
                 {filteredTransactions.map((transaction) => (
                   <Box key={transaction.id} p={4} bg={getColor(transaction)} borderRadius="md" boxShadow="sm" color="black">
                     <Text><strong>Montant :</strong> {transaction.amount} {currency}</Text>
@@ -244,8 +252,8 @@ const TransactionsPanel = () => {
           </Box>
         )}
       </Box>
-    </VStack>
-  );
+    </VStack>)}
+    </>);
 };
 
 export default TransactionsPanel;

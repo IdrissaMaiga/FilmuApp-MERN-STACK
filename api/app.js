@@ -61,19 +61,6 @@ app.use('/api/movie', movieRoute)
 
 app.use('/api/watching', watchingRoute)
 
-app.get('/images', async (req, res) => {
-  try {
-    const images = await prismaclient.image.findMany();
-    res.json(images);
-  } catch (error) {
-    console.error("Error fetching images:", error);
-    res.status(500).json({ error: "An error occurred while fetching images" });
-  }
-});
-
-
-
-
 
 app.listen(8800, () => {
   console.log('Server is running!')

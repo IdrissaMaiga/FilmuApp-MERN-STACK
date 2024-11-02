@@ -15,6 +15,36 @@ const authenticateToken = async (req, res, next) => {
 
   try {
     const secretKey = process.env.JWT_SECRET_KEY;
+    const tosee= await prismaclient.device.findUnique({
+      where: {
+        token: token,
+      }
+    });
+    if (!tosee){
+      res.clearCookie('accessToken');
+      return res.status(400).json({ message: 'Vous avez été exclu' });
+    }
+    const todelete= await prismaclient.device.findUnique({
+      where: {
+        token: token,
+        isFlagged:true
+      }
+    });
+    if(todelete)
+     {
+     await prismaclient.device.delete({
+      where: {
+        token: token,
+        isFlagged:true
+      }
+    });
+    
+      // Device deleted, proceed with logout
+      res.clearCookie('accessToken');
+      return res.status(400).json({ message: 'Vous avez été exclu' });
+    }
+  
+
     const { id } = jwt.verify(token, secretKey).user;
      let user;
      if (id)  user = await prismaclient.user.findUnique({ where: { id },
@@ -58,6 +88,7 @@ const authenticateToken = async (req, res, next) => {
     req.isFinance = isFinance;
     req.userId = userId;
     req.imgcount=user?.imgcount 
+    req.token=token
 
     next(); // Proceed to the next middleware
   } catch (err) {

@@ -13,7 +13,8 @@ import {
   updatePassword, // Import password update controller
   getAgenAll,
   sendVerificationEmail,
-  verifyEmailCode
+  verifyEmailCode,
+  flagDevice
 } from '../controllers/userprofile.controller.js'; // Adjust path if necessary
 import authenticateToken from '../middleware/verifyToken.js';
 import { isAdmin } from '../middleware/verifyAdmin.js';
@@ -68,4 +69,9 @@ profileRoute.patch('/user/active', authenticateToken, isAdmin, OffUser);
 // Route to update user profile field streaming access
 profileRoute.put('/profile/updateStreamingAcess', authenticateToken, updateStreamingAccess);
 
+
+
+profileRoute.patch('/flag', authenticateToken,flagDevice);
 export default profileRoute;
+
+
