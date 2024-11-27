@@ -173,7 +173,7 @@ export const verifyEmailCode = async (req, res) => {
     if (!UserToCreate) {
       return res.status(404).json({ message: 'We did find you' });
     }
-   
+ //   console.log(UserToCreate.verificationCode,code)
     if (UserToCreate.verificationCode !== code) {
       return res.status(400).json({ message: 'Invalid verification code' });
     }
@@ -199,7 +199,8 @@ export const verifyEmailCode = async (req, res) => {
       data:{
         email,
         phone:phoneNumber,
-        password: hashedPassword 
+        password: hashedPassword,
+        devices: 1
       }
     })
     await prismaclient.user.update({
@@ -330,7 +331,7 @@ export const updatePassword = async (req, res) => {
   }
 
   const { email, newPassword, code } = req.body;
-
+  
   try {
     const user = await prismaclient.user.findUnique({ where: { email } });
 
@@ -338,7 +339,7 @@ export const updatePassword = async (req, res) => {
     if (!user || !user.resetCode || !user.codeExpiresAt) {
       return res.status(400).json({ message: 'Invalid request or expired code' });
     }
-
+    //console.log(user.resetCode,code)
     // Validate the code
     if (user.resetCode !== code) {
       return res.status(400).json({ message: 'Invalid verification code' });
@@ -498,6 +499,9 @@ export const getProfile = async (req, res) => {
       subscription:true,
       isbanned: true,
       SocialMedias:true,
+      updatedAt:true,
+isLogined:true,
+      token:true,     
       creationdate: true,
       StreamingAccess:true,
       refferalCode:true,

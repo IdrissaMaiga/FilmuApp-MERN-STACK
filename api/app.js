@@ -24,8 +24,8 @@ app.use(bodyParser.json({ limit: '50mb' })) // Adjust '50mb' to the desired size
 app.use(express.json())
 
 const corssetting = {
-  origin: ['http://localhost:5173', 'http://192.168.1.101:5173', 'http://100.96.46.16:5173', 'http://10.0.2.2:5173','http://10.0.2.16:5173','http://172.24.144.1:5173'],
- // credentials: true, // Allow credentials (cookies, headers, etc.)
+  origin: '*',  // Allow all origins (use with caution in production
+  //credentials: true, // Optional: Allows cookies to be sent
 };
 
 // Apply CORS middleware globally

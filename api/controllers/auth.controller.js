@@ -8,7 +8,7 @@ dotenv.config();
 
 export const login = async (req, res) => {
   const { email, password,deviceInfo } = req.body;
- // console.log("user in")
+// console.log("user in")
   try {
     const user = await prismaclient.user.findUnique({
       where: { email },
@@ -64,7 +64,7 @@ export const login = async (req, res) => {
        
       }
     const token = generateToken(payload);
-    await registerDevice(userInfo, deviceInfo, token)
+    await registerDevice(user, deviceInfo, token)
    // res.cookie('accessToken', token, {
       // httpOnly: true,
      //   maxAge: 1000 * 60 * 60 * 24 * 7 ,
@@ -72,6 +72,10 @@ export const login = async (req, res) => {
      // secure: true
     // });
     userInfo.accessToken=token;
+const updatedUser = await prismaclient.user.update({
+      where: { email },
+      data: { isLogined: true,token }, // Set isLogined to true
+    });
     res.status(200).json(userInfo);
     
   } catch (err) {
@@ -82,6 +86,7 @@ export const login = async (req, res) => {
 
 
 async function registerDevice(userInfo, deviceInfo, token) {
+  // Prepare device data
   const deviceData = {
     userId: userInfo.id,
     deviceType: deviceInfo?.deviceType,
@@ -91,48 +96,49 @@ async function registerDevice(userInfo, deviceInfo, token) {
     ipAddress: deviceInfo?.ipAddress,
     loginTime: new Date(),
     isActive: true,
-    token: token
+    token: token,
   };
 
-  // Fetch all active devices for the user
-  const activeDevices = await prismaclient.device.findMany({
-    where: {
-      userId: userInfo.id,
-    },
-    orderBy: {
-      loginTime: 'asc' // Oldest login time first
-    }
-  });
- 
-    // Step 4: Calculate number of devices to delete
-    
-  // If the user has reached the maximum allowed devices
-  if (activeDevices.length >= userInfo.devices) {
-    // Find the oldest device (the first one due to ascending order) and delete it
-   
-    const excessDeviceCount = activeDevices.length - userInfo.devices+1;
-
-    // Step 5: Delete the oldest devices until only the allowed number remains
-    for (let i = 0; i < excessDeviceCount; i++) {
-      await prismaclient.device.delete({
-        where: { id: activeDevices[i].id }
+  try {
+    // Fetch all active devices for the user
+    const activeDevices = await prismaclient.device.findMany({
+      where: {
+        userId: userInfo.id,
+      },
+      orderBy: {
+        loginTime: 'asc', // Oldest login time first
+      },
+    }) || [];
+    /// console.log(userInfo.devices,activeDevices.length,userInfo.devices)
+    // Check if the user has a device limit and remove excess devices
+    if (activeDevices.length >= userInfo.devices) {
+      const excessDeviceCount = activeDevices.length - userInfo.devices + 1;
+      // Delete the oldest devices in a single operation
+      const deviceIdsToDelete = activeDevices.slice(0, excessDeviceCount).map((device) => device.id);
+      await prismaclient.device.deleteMany({
+        where: {
+          id: {
+            in: deviceIdsToDelete,
+          },
+        },
       });
     }
-   
-  }
 
-  // Now add the new device entry
- const device = await prismaclient.device.create({
-    data: {
-      ...deviceData
-    }
-  });
-  
-  return {
-    message: 'Device registered successfully',
-    device: device
-  };
+    // Add the new device
+    const device = await prismaclient.device.create({
+      data: deviceData,
+    });
+
+    return {
+      message: 'Device registered successfully',
+      device: device,
+    };
+  } catch (error) {
+    console.error('Error registering device:', error);
+    throw new Error('Failed to register device');
+  }
 }
+
 
 // Handle user bonus calculation
 const handleUserBonus = async (user) => {
@@ -218,17 +224,26 @@ const generateToken = (userInfo) => {
 
 // Logout Route
 export const logout = async (req, res) => {
-  const token = req.cookies.accessToken; // Retrieve token from cookies
-  prismaclient.device.delete({
-    where: {
-      token: token,
-    }
-  });
+ const token= req.headers['authorization']?.split(' ')[1]
   prismaclient.device.delete({
     where: {
       isFlagged: true,
     }
   });
+  if(token){
+  prismaclient.device.delete({
+    where: {
+      token: token,
+   
+ }
+  });
+ const updatedUsers = await prismaclient.user.updateMany({
+  where: { token },
+  data: { isLogined: false,token:null }, // Set isLogined to false for all users with the same token
+});
+}
+  else {res.status(401).json({ message: 'Unable to logout automatically ' });}  
+
   res.clearCookie('accessToken');
   res.status(200).json({ message: 'Logout successful' });
 };
