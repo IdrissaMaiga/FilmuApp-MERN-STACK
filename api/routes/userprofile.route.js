@@ -19,6 +19,7 @@ import {
 import authenticateToken from '../middleware/verifyToken.js';
 import { isAdmin } from '../middleware/verifyAdmin.js';
 
+
 const profileRoute = express.Router();
 
 // Route to get user profile

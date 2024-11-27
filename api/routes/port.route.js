@@ -11,13 +11,13 @@ import { isAdmin } from '../middleware/verifyAdmin.js'
 import authenticateToken from '../middleware/verifyToken.js'
 
 const portRoute = express.Router()
-portRoute.use(authenticateToken)
 
-portRoute.post('', isAdmin, createPort)
-portRoute.post('/bulk', isAdmin, createPorts)
-portRoute.get('', getPorts)
-portRoute.get('/portsdecrypt/:id', getPortById)
-portRoute.put('/:id', isAdmin, updatePort)
-portRoute.delete('/:id', isAdmin, deletePort)
+
+portRoute.post('',authenticateToken, isAdmin, createPort)
+portRoute.post('/bulk', authenticateToken,isAdmin, createPorts)
+portRoute.get('', authenticateToken,getPorts)
+portRoute.get('/:id',getPortById)
+portRoute.put('/:id', authenticateToken,isAdmin, updatePort)
+portRoute.delete('/:id', authenticateToken,isAdmin, deletePort)
 
 export default portRoute

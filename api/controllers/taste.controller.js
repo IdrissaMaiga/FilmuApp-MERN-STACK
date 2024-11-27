@@ -36,19 +36,32 @@ export const createTaste = async (req, res) => {
 // Get the taste of the logged-in user
 export const getTaste = async (req, res) => {
   try {
-    const { userId } = req.params // User ID to update (for admin use)
+  
     const loggedInUserId = req.user.id // Logged-in user ID
-    const { selections } = req.body
+ 
     // Check if the logged-in user is an admin
-    const isAdmin = req.isAdmin
+    const existingTaste = await prismaclient.taste.findFirst({
+      where: { userId: loggedInUserId }
+    })
 
-    // Determine the user ID to update based on admin status
-    const targetUserId = isAdmin ? userId : loggedInUserId
+    if (!existingTaste) {
+       await prismaclient.taste.create({
+        data: {
+          name:'Ma liste',
+          userId:loggedInUserId
+        }
+      })
+    }
+
+    // Create the new taste
+    
+
+    // Determine the user ID to update based on admin sta
 
     // Fetch the taste for the logged-in user including related movieorseries
     const taste = await prismaclient.taste.findUnique({
-      where: { userId: targetUserId },
-      include: isAdmin ? selections : { Movies: true, Series: true } // Include movieorseries details
+      where: { userId: loggedInUserId },
+      include:  { Movies: true, Series: true } // Include movieorseries details
     })
 
     if (!taste) {
@@ -61,152 +74,167 @@ export const getTaste = async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch taste' })
   }
 }
-
-// Function to add a movie or series to the user's taste
-export const addordeleteTaste = async (req, res) => {
+export const checkTaste = async (req, res) => {
   try {
-    const { movieId, seriesId, inOut } = req.body
-    const userId = req.user.id // Assuming user ID is stored in req.user
+    const { id, type } = req.query; // Get ID and type (movie or series) from query parameters
+    const userId = req.user.id; // Assuming user ID is available in req.user
 
-    // Validate that either movieId or seriesId is provided, but not both
-    if ((movieId && seriesId) || (!movieId && !seriesId)) {
-      return res
-        .status(400)
-        .json({ message: 'Provide either movieId or seriesId, but not both' })
+    // Validate that `type` is either "movie" or "series"
+    if (!['movie', 'series'].includes(type)) {
+      return res.status(400).json({ message: 'Invalid type. Use "movie" or "series".' });
     }
 
-    // Fetch the user's taste
+    // Check if ID is provided
+    if (!id) {
+      return res.status(400).json({ message: 'ID is required.' });
+    }
+   console.log()
+    // Fetch the user's taste list
     const userTaste = await prismaclient.taste.findUnique({
+      where: { userId },
+      select: {
+        MovieIds: true,
+        SerieIds: true,
+      },
+    });
+   
+    // Return false if the taste list does not exist for the user
+    if (!userTaste) {
+      return res.status(200).json({ inTaste: false });
+    }
+    //console.log(userTaste)
+    // Check if the item is in the user's taste list
+    const inTaste = type === 'movie'
+      ? userTaste.MovieIds.includes(id)
+      : userTaste.SerieIds.includes(id);
+
+    // Respond with true or false based on the result
+    res.status(200).json({ inTaste });
+  } catch (error) {
+    console.error("Error checking taste:", error);
+    res.status(500).json({ message: 'Failed to check taste' });
+  }
+};
+
+
+
+export const addOrDeleteTaste = async (req, res) => {
+  try {
+    const { movieId, seriesId, inOut } = req.body;
+    const userId = req.user.id; // Assume user ID is stored in req.user
+
+    // Ensure only movieId or seriesId is provided, not both or neither
+    if ((movieId && seriesId) || (!movieId && !seriesId)) {
+      return res.status(400).json({ message: 'Provide either movieId or seriesId, but not both' });
+    }
+
+    // Check if user already has a taste list; if not, create one
+    let userTaste = await prismaclient.taste.findUnique({ where: { userId } });
+    if (!userTaste) {
+      userTaste = await prismaclient.taste.create({
+        data: {
+          name: 'Ma liste',
+          userId,
+        },
+      });
+    }
+
+    // Retrieve user's taste list with movie and series IDs
+    userTaste = await prismaclient.taste.findUnique({
       where: { userId },
       select: {
         id: true,
         MovieIds: true,
         SerieIds: true,
         Series: true,
-        Movies: true
-      }
-    })
+        Movies: true,
+      },
+    });
 
     if (!userTaste) {
-      return res.status(404).json({ message: 'Taste not found for the user' })
+      return res.status(404).json({ message: 'Taste list not found for the user' });
     }
 
-    // Check if the movie or series is already in the user's taste
+    // Add or remove a movie from the user's taste list
     if (movieId) {
-      const isMovieInTaste = userTaste.MovieIds.includes(movieId)
+      const movieExists = await prismaclient.movie.findUnique({ where: { id: movieId } });
+      if (!movieExists) {
+        return res.status(404).json({ message: 'Movie not found in database' });
+      }
+
+      const isMovieInTaste = userTaste.MovieIds.includes(movieId);
       if (isMovieInTaste && inOut) {
-        return res
-          .status(400)
-          .json({ message: 'Movie is already in your taste list' })
+        return res.status(400).json({ message: 'Movie is already in your taste list' });
       }
-      if (!inOut && userTaste.Movies.length === 0) {
-        return res
-          .status(400)
-          .json({ message: 'You have no movies in your taste list' })
-      }
-      let updatedMovieIds
-      if (!inOut) {
-        updatedMovieIds = userTaste.MovieIds.filter(id => id !== movieId)
+      if (!inOut && !isMovieInTaste) {
+        return res.status(400).json({ message: 'Movie is not in your taste list' });
       }
 
-      // Add the movie to the user's taste
+      const updatedMovieIds = inOut
+        ? [...userTaste.MovieIds, movieId]
+        : userTaste.MovieIds.filter(id => id !== movieId);
 
-       await prismaclient.movie.update({
+      await prismaclient.taste.update({
+        where: { userId },
+        data: { MovieIds: { set: updatedMovieIds } },
+      });
+
+      await prismaclient.movie.update({
         where: { id: movieId },
         data: {
           tasteIds: inOut
-            ? {
-                push: userTaste.id
-              }
-            : {
-                set: userTaste.Movies.find(
-                  movie => movie.id === movieId
-                ).tasteIds.filter(id => id !== userTaste.id)
-              }
-        }
-      })
-      const updatedTaste = await prismaclient.taste.update({
-        where: { userId },
-        data: {
-          MovieIds: inOut
-            ? {
-                push: movieId
-              }
-            : updatedMovieIds
+            ? { push: userTaste.id }
+            : { set: movieExists.tasteIds.filter(id => id !== userTaste.id) },
         },
-        include: {
-          Series: true,
-          Movies: true
-        }
-      })
+      });
 
-      res.status(200).json({
-        message:
-          'Movie ' +
-          (inOut ? 'added to' : 'deleted from') +
-          ' taste successfully',
-        taste: updatedTaste
-      })
-    } else if (seriesId) {
-      const isSeriesInTaste = userTaste.SerieIds.includes(seriesId)
+      return res.status(200).json({
+        message: `Movie ${inOut ? 'added to' : 'removed from'} taste list successfully`,
+      });
+    }
+
+    // Add or remove a series from the user's taste list
+    if (seriesId) {
+      const seriesExists = await prismaclient.series.findUnique({ where: { id: seriesId } });
+      if (!seriesExists) {
+        return res.status(404).json({ message: 'Series not found in database' });
+      }
+
+      const isSeriesInTaste = userTaste.SerieIds.includes(seriesId);
       if (isSeriesInTaste && inOut) {
-        return res
-          .status(400)
-          .json({ message: 'Series is already in your taste list' })
+        return res.status(400).json({ message: 'Series is already in your taste list' });
       }
-      if (!inOut && userTaste.Series.length === 0) {
-        return res
-          .status(400)
-          .json({ message: 'You have no movies in your taste list' })
+      if (!inOut && !isSeriesInTaste) {
+        return res.status(400).json({ message: 'Series is not in your taste list' });
       }
-      let updatedSerieIds
-      if (!inOut) {
-        updatedSerieIds = userTaste.seriesId.filter(id => id !== seriesId)
-      }
-      // Add the series to the user's taste
+
+      const updatedSerieIds = inOut
+        ? [...userTaste.SerieIds, seriesId]
+        : userTaste.SerieIds.filter(id => id !== seriesId);
+
+      await prismaclient.taste.update({
+        where: { userId },
+        data: { SerieIds: { set: updatedSerieIds } },
+      });
+
       await prismaclient.series.update({
         where: { id: seriesId },
         data: {
           tasteIds: inOut
-            ? {
-                push: userTaste.id
-              }
-            : {
-                set: userTaste.Series.find(
-                  serie => serie.id === seriesId
-                ).tasteIds.filter(id => id !== userTaste.id)
-              }
-        }
-      })
-      const updatedTaste = await prismaclient.taste.update({
-        where: { userId },
-        data: {
-          SerieIds: inOut
-            ? {
-                push: seriesId
-              }
-            : updatedSerieIds
+            ? { push: userTaste.id }
+            : { set: seriesExists.tasteIds.filter(id => id !== userTaste.id) },
         },
-        include: {
-          Series: true,
-          Movies: true
-        }
-      })
-      
+      });
 
-      res.status(200).json({
-        message:
-          'Series ' +
-          (inOut ? 'added to' : 'deleted from') +
-          ' taste successfully',
-        taste: updatedTaste
-      })
+      return res.status(200).json({
+        message: `Series ${inOut ? 'added to' : 'removed from'} taste list successfully`,
+      });
     }
   } catch (error) {
-    console.error(error)
-    res.status(500).json({ message: 'Failed to add to taste' })
+    console.error(error);
+    res.status(500).json({ message: 'Failed to update taste list' });
   }
-}
+};
 
 // Update the taste of a user (either the logged-in user or another user if admin)
 export const updateTaste = async (req, res) => {

@@ -1,6 +1,11 @@
 import prismaclient from '../lib/prisma.js'
 import updateAField from '../functions/fieldUpdate.js'
 
+
+// this will be for handle user watching json 
+
+
+
 // Create a new watching record
 export const createWatching = async (req, res) => {
   try {

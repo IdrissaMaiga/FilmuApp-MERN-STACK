@@ -29,7 +29,7 @@ export const createsubscriptionTransaction = async (req, res) => {
     let currentSubscription = user.subscription;
     const currentDate = DateTime.now();
     let discount = 1; // Default no discount
-    console.log(currentSubscription)
+    //console.log(currentSubscription)
     // Check if referred code matches any existing user's referral code
     if (refferedCode) {
       const referringUser = await prismaclient.user.findUnique({
@@ -52,7 +52,7 @@ export const createsubscriptionTransaction = async (req, res) => {
         where:{type}
       })
       if (!currentSubscription) currentSubscription=sub
-      console.log(currentSubscription)
+      //console.log(currentSubscription)
         const newEndDate = subscriptionEndDay.plus({ days: currentSubscription.duration * unit });
         const transactionAmount = currentSubscription.price * unit * discount;
       // Check if user balance can afford the transaction
@@ -80,6 +80,7 @@ export const createsubscriptionTransaction = async (req, res) => {
           balance: { decrement: transactionAmount },
           subscribtionStartDay:subscriptionEndDay,
           subscribtionEndDay: newEndDate.toJSDate(),
+          subscriptionId :currentSubscription.id,
           isactive: true,
         }
       });
@@ -126,7 +127,7 @@ export const createsubscriptionTransaction = async (req, res) => {
 
 
   export const createdownloadsTransactionSingle = async (req, res) => {
-    const { episodeId, movieId, allow } = req.body;  // Either episodeId or movieId will be provided in the request
+    const { SerieId, movieId, allow } = req.body;  // Either SerieIdor movieId will be provided in the request
     const userId = req.user.id;
   
     try {
@@ -151,29 +152,46 @@ export const createsubscriptionTransaction = async (req, res) => {
           userId,
           isExpired: false,
           OR: [
-            { episodeId: episodeId || undefined },
+            { SerieId :SerieId|| undefined },
             { movieId: movieId || undefined }
           ]
         }
       });
+       let element;
+     
+         if (SerieId ) element= await prismaclient.series.findUnique({
+          where: { id: SerieId }
+        });
+        if (movieId ) element=  await prismaclient.movie.findUnique({
+          where: { id: movieId }
+        });
+        
+        
+       
+      
       if (activeDownload) {
         return res.status(400).json({ error: "Active download already exists for this content" });
       }
-  
+      if (!element) {
+        return res.status(400).json({ error: "Movie or Serie does not exist" });
+      }
+      
       // Verify download limits based on the subscription
       const downloadsCount = await prismaclient.downloads.count({
         where: { userId, isExpired: false }
       });
+      console.log(downloadsCount,user.subscription.downloads)
       let transactionAmount = 0;
-      if (downloadsCount >= user.downloadnumber) {
+      if (downloadsCount >= user.subscription.downloads) {
         if (!allow) {
-          return res.status(400).json({ error: "Download limit reached" });
+          return res.status(200).json({ done: false });
         }
-        transactionAmount = 220;
+        transactionAmount = element.downloadPrice||200;
       }
   
-      if (user.balance < Math.abs( transactionAmount)) {
+      if (user.balance < Math.abs( transactionAmount)) {  
         return res.status(400).json({ error: "Insufficient balance" });
+      
       }
   
       const fulfilledDate = DateTime.now().toJSDate();
@@ -182,6 +200,7 @@ export const createsubscriptionTransaction = async (req, res) => {
         where: { role:"ADMIN"},
        
       })
+  
       ;if (!admin)return res.status(400).json({ error: "imposible transaction" });
         await prismaclient.user.update({
           where: { id: admin.id },
@@ -218,7 +237,7 @@ export const createsubscriptionTransaction = async (req, res) => {
           fulfilledDate,
           expirationDate,
           isExpired: false,
-          episodeId: episodeId || null,
+          SerieId:SerieId || null,
           movieId: movieId || null
         }
       });
@@ -227,7 +246,8 @@ export const createsubscriptionTransaction = async (req, res) => {
         message: "Download successful",
         transaction,
         download,
-        user:updatedUser
+        user:updatedUser,
+        done:true
       });
   
     } catch (error) {
@@ -239,134 +259,6 @@ export const createsubscriptionTransaction = async (req, res) => {
 
 
 
-  export const createdownloadsTransactionBulk = async (req, res) => {
-    const { episodeIds, movieIds, seasonId, allow } = req.body; // Either array of episodeIds, movieIds, or a seasonId
-    const userId = req.user.id;
-  
-    try {
-      const user = await prismaclient.user.findUnique({
-        where: { id: userId },
-        include: { subscription: true }
-      });
-  
-      if (!user) return res.status(404).json({ error: "User not found" });
-      const subscription = user.subscription;
-  
-      if (!subscription || !user.isactive) {
-        return res.status(403).json({ error: "Active subscription required to download content" });
-      }
-  
-      let itemsToDownload = [];
-      if (seasonId) {
-        const season = await prismaclient.season.findUnique({
-          where: { id: seasonId },
-          include: { episodes: true }
-        });
-        if (!season) return res.status(404).json({ error: "Season not found" });
-        itemsToDownload = season.episodes.map((episode) => ({
-          episodeId: episode.id,
-          movieId: null
-        }));
-      } else {
-        itemsToDownload = [
-          ...(episodeIds || []).map((id) => ({ episodeId: id, movieId: null })),
-          ...(movieIds || []).map((id) => ({ episodeId: null, movieId: id }))
-        ];
-      }
-  
-      // Check for any existing active downloads for each item
-      const activeDownloads = await Promise.all(
-        itemsToDownload.map((item) =>
-          prismaclient.downloads.findFirst({
-            where: {
-              userId,
-              isExpired: false,
-              OR: [
-                { episodeId: item.episodeId || undefined },
-                { movieId: item.movieId || undefined }
-              ]
-            }
-          })
-        )
-      );
-      if (activeDownloads.some(download => download)) {
-        return res.status(400).json({ error: "Active download already exists for one or more items" });
-      }
-  
-      const downloadsCount = await prismaclient.downloads.count({
-        where: { userId, isExpired: false }
-      });
-      let transactionAmount = 0;
-      if (downloadsCount + itemsToDownload.length > user.downloadnumber) {
-        if (!allow) {
-          return res.status(400).json({ error: "Download limit reached" });
-        }
-        transactionAmount = 220 * itemsToDownload.length;
-      }
-  
-      if (user.balance < transactionAmount) {
-        return res.status(400).json({ error: "Insufficient balance" });
-      }
-      const admin= await prismaclient.user.findFirst({
-        where: { role:"ADMIN"},
-       
-      })
-      ;if (!admin)return res.status(400).json({ error: "imposible transaction" });
-        await prismaclient.user.update({
-          where: { id: admin.id },
-          data: {
-            balance: { increment:Math.abs( transactionAmount )},
-          },
-        });
-     const updatedUser= await prismaclient.user.update({
-        where: { id: userId },
-        data: { balance: { decrement: transactionAmount } },
-        downloadnumber:{decrement:Math.abs(downloadsCount + itemsToDownload.length)}
-      });
-      
-      const transaction = await prismaclient.transaction.create({
-        data: {
-          userId,
-          amount: -transactionAmount,
-          isApproved: true,
-          isPending: false,
-          transactionType: "TELE",
-          phonenumber: user.phone,
-          unit: itemsToDownload.length
-        }
-      });
-  
-      const fulfilledDate = DateTime.now().toJSDate();
-      const expirationDate = DateTime.now().plus({ days: 7 }).toJSDate();
-  
-      const downloadPromises = itemsToDownload.map((item) =>
-        prismaclient.downloads.create({
-          data: {
-            userId,
-            transactionId: transaction.id,
-            fulfilledDate,
-            expirationDate,
-            isExpired: false,
-            episodeId: item.episodeId,
-            movieId: item.movieId
-          }
-        })
-      );
-  
-      const downloads = await Promise.all(downloadPromises);
-  
-      return res.status(201).json({
-        message: "Bulk download successful",
-        transaction,
-        downloads,
-        user:updatedUser
-      });
-  
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ error: "Internal server error" });
-    }
-  };
   
   
   const __filename = fileURLToPath(import.meta.url);
@@ -699,18 +591,16 @@ const reverseTransactionEffects = async (transaction, user) => {
 
 // Reverse transaction function
 export const reverseTransaction = async (req, res) => {
-  if (!req.isAdmin) return res.status(403).json({ error: "Admin privileges required" });
-
-  const { transactionId,userId } = req.body;
-
+  const { targetUserId, transactionId } = req.body; // Destructure from req.body
   try {
     const transaction = await prismaclient.transaction.findUnique({
-      where: { id: transactionId,userId },
+      where: { id: transactionId,userId:targetUserId },
       include: {
         subscription: true,   // Includes all fields in the related `Subscription` model
         download: true        // Includes all fields in the related `Downloads` model
       }
     })
+    
 
     if (!transaction) return res.status(404).json({ error: "Transaction not found" });
     if (transaction.reversed) return res.status(400).json({ error: "Transaction already reversed" });
@@ -718,12 +608,13 @@ export const reverseTransaction = async (req, res) => {
     if (transaction.isApproved && (transaction.transactionType === "DEPO" || transaction.transactionType === "RETRAIT")) {
       return res.status(400).json({ error: "Approved DEPO and RETRAIT transactions cannot be reversed" });
     }
+   
     const user = await prismaclient.user.findUnique({ where: { id: transaction.userId } });
     if (!user) return res.status(404).json({ error: "User not found" });
 
     // Reverse the effects of the transaction
     await reverseTransactionEffects(transaction, user);
-
+     
     // Mark the transaction as reversed
     await prismaclient.transaction.update({
       where: { id: transactionId },
@@ -901,7 +792,7 @@ export const createMoneyflow = async (req, res) => {
 
 
         if (pendingTransaction.transactionType === "DEPO") {
-          console.log("DEPO")
+         // console.log("DEPO")
           await prismaclient.user.update({
             where: { id: req.userId },
             data: { balance: { increment: Math.abs(amount) } },
@@ -952,7 +843,7 @@ export const createMoneyflow = async (req, res) => {
           });
         }
         
-        console.log(pendingTransaction.id)
+        //console.log(pendingTransaction.id)
         
       }
       // Cancel all other pending transactions with the same ID
@@ -1128,8 +1019,40 @@ export const getAllTransactions = async (req, res) => {
   }
 };
 
+
+// Updated getAllTransactions function (Admin Only)
+export const getTransaction = async (req, res) => {
+  {userId,id}
+  if (!req.isAdmin) {
+    return res.status(403).json({ error: "Admin privileges required" });
+  }
+
+  try {
+    // Fetch all transactions
+    const transaction = await prismaclient.transaction.findUnique({
+      where:{userId,id},
+      include: {
+        user: true,
+        subscription: true,
+        download: true,
+      }
+    });
+    
+    // Map through each transaction to add image data in Base64 format if available
+   
+      const imagePath = transaction?.details[0];
+      const imageBase64 = imagePath ? getImageBase64(path.resolve(imagePath)) : null;
+    res.status(200).json({ ...transaction, imageBase64 });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
 export const createDepositTransactionByAdmin = async (req, res) => {
   // Check if the user has admin privileges
+  
   if (!req.isAdmin) {
     return res.status(403).json({ error: "Admin privileges required" });
   }

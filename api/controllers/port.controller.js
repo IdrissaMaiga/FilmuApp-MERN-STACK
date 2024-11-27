@@ -92,14 +92,13 @@ export const getPorts = async (req, res) => {
 // Get a port by ID
 export const getPortById = async (req, res) => {
   try {
+    
     const { id } = req.params
+    
     const port = await prisma.port.findUnique({
       where: { id },
-      include: {
-        Channel: true
-      }
     })
-
+   // console.log(id)
     if (!port) {
       return res.status(404).json({ message: 'Port not found' })
     }

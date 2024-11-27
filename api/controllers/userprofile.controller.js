@@ -5,6 +5,7 @@ import updateAField from '../functions/fieldUpdate.js'
 import nodemailer from 'nodemailer';
 import crypto from 'crypto';
 import moment from 'moment';
+import { isAdmin } from '../middleware/verifyAdmin.js';
 
 // Validation middleware for password change
 export const validatePasswordChange = [
@@ -475,9 +476,13 @@ export const updateProfileField = async (req, res) => {
 export const getProfile = async (req, res) => {
   try {
     //console.log("user ask info")
-    const { targetUserId, targetEmail, targetName, selection } = req.body;
-    const userId = req.user.id;
-    const isAdmin = req.isAdmin; // Assuming user role is stored in req.user
+
+    let userId = req.user.id;
+    const { targetUserId } = req.query;
+    if (req.isAdmin&&targetUserId){userId=targetUserId}
+
+
+    // Assuming user role is stored in req.user
 
     // Define baseSelect as the default selection
     const baseSelect = {
@@ -507,29 +512,16 @@ export const getProfile = async (req, res) => {
           lastupdate: true,
         },
       },
-      watching: {
-        select: {
-          time: true,
-          DateOfWatching: true,
-          movie: {
-            select: {
-              id: true,
-            },
-          },
-          episode: {
-            select: {
-              id: true,
-            },
-          },
-        },
-      },
+      watching:true,
       transactions: {
         select: {
+          id:true,
           ID: true,
           amount: true,
           details: true,
           phonenumber: true,
           isApproved: true,
+          reversed:true,
           isPending: true,
           isRetrait: true,
           isCanceled: true,
@@ -542,31 +534,23 @@ export const getProfile = async (req, res) => {
           fulfilledDate: true,
           expirationDate: true,
           isExpired: true,
-          episodeId: true,
+          SerieId: true,
           movieId: true,
         },
       },
     };
 
     // Merge custom selection only if user is admin and provided a selection in req.body
-    const finalSelect = isAdmin && selection ? { ...baseSelect, ...selection } : baseSelect;
-
-    // Determine the user to fetch
-    const targetCondition = targetUserId
-      ? { id: targetUserId }
-      : targetEmail
-      ? { email: targetEmail }
-      : targetName
-      ? { name: targetName }
-      : { id: userId };
-
+   
+    
+   
     const user = await prismaclient.user.findUnique({
-      where: targetCondition,
-      select: finalSelect,
+      where:{ id: userId } ,
+      select: baseSelect,
     });
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(504).json({ message: "User not found" });
     }
 
     res.status(200).json(user);
@@ -586,59 +570,8 @@ export const getUserAll = async (req, res) => {
     // Define the base select fields
     const baseSelect = {
       id:true,
-      name: true,
-      email: true,
-      phone: true,
-      SocialMedias: true,
-      profilePicture: true,
-      balance: true,
-      isactive: true,
-      subscribtionEndDay: true,
-      subscribtionStartDay: true,
-      isbanned: true,
-      creationdate: true,
-      StreamingAccess:true,
-      referralsMade:true,
-      subscription: true,
-      devices: true,
-      taste: {
-        select: {
-          name: true,
-          creationdate: true,
-          lastupdate: true,
-        },
-      },
-      watching: {
-        select: {
-          time: true,
-          DateOfWatching: true,
-          movie: { select: { id: true } },
-          episode: { select: { id: true } },
-        },
-      },
-      transactions: {
-        select: {
-          ID: true,
-          amount: true,
-          details: true,
-          phonenumber: true,
-          isApproved: true,
-          isPending: true,
-          isRetrait: true,
-          isCanceled: true,
-          transactionType: true,
-          lastModified: true,
-        },
-      },
-      downloads: {
-        select: {
-          fulfilledDate: true,
-          expirationDate: true,
-          isExpired: true,
-          episodeId: true,
-          movieId: true,
-        },
-      },
+      email:true,
+      name:true
     };
 
     // Add any extra selections provided by admin in `req.body.selection`

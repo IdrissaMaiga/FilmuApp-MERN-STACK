@@ -3,15 +3,19 @@ import dotenv from 'dotenv';
 import prismaclient from '../lib/prisma.js'; // Ensure to add the .js extension if needed
 
 
+
 dotenv.config();
 
 const authenticateToken = async (req, res, next) => {
-  const token = req.cookies.accessToken; // Retrieve token from cookies
-
+ // let token = req.cookies.accessToken; // Retrieve token from cookies
+ // console.log("token",token);
+   const token= req.headers['authorization']?.split(' ')[1]
+; 
   if (!token) {
-   // console.log("No token found");
-    return res.sendStatus(401); // Unauthorized
+  
+    return res.status(400).json({ message: 'No token found' });
   }
+  
 
   try {
     const secretKey = process.env.JWT_SECRET_KEY;
@@ -21,8 +25,9 @@ const authenticateToken = async (req, res, next) => {
       }
     });
     if (!tosee){
-      res.clearCookie('accessToken');
-      return res.status(400).json({ message: 'Vous avez été exclu' });
+     // res.clearCookie('accessToken');
+      console.log("token",token);
+      return res.status(400).json({exit:true, message: 'Vous avez été exclu' });
     }
     const todelete= await prismaclient.device.findUnique({
       where: {
@@ -38,13 +43,13 @@ const authenticateToken = async (req, res, next) => {
         isFlagged:true
       }
     });
-    
+    console.log("token",token);
       // Device deleted, proceed with logout
-      res.clearCookie('accessToken');
-      return res.status(400).json({ message: 'Vous avez été exclu' });
+      //res.clearCookie('accessToken');
+      return res.status(400).json({ exit:true,message: 'Vous avez été exclu' });
     }
-  
-
+   
+   
     const { id } = jwt.verify(token, secretKey).user;
      let user;
      if (id)  user = await prismaclient.user.findUnique({ where: { id },
@@ -58,10 +63,11 @@ const authenticateToken = async (req, res, next) => {
         isbanned: true,
         imgcount:true
       } }); // Correctly use findUnique
-    // console.log(jwt.verify(token, secretKey));
+     console.log(jwt.verify(token, secretKey));
+
     if (!user) {
-     // console.log("User not found");
-      return res.sendStatus(404); // Not Found
+     console.log("User not found");
+      return res.sendStatus(404).json({ message: 'User not found' });; // Not Found
     }
     
     if (user.isbanned) {

@@ -3,9 +3,10 @@ import {
   createTaste,
   getTaste,
   updateTaste,
-  deleteTaste,
+  ///deleteTaste,
   getAllTastes,
-  addordeleteTaste
+  addOrDeleteTaste,
+  checkTaste
 } from '../controllers/taste.controller.js' // Assuming these controller functions are defined
 import authenticateToken from '../middleware/verifyToken.js'
 
@@ -24,9 +25,13 @@ tasteRoute.put(
 )
 
 // Route to delete the taste of the logged-in user
-tasteRoute.delete('/:userId', authenticateToken, deleteTaste)
+//tasteRoute.delete('/:userId', authenticateToken, deleteTaste)
 // Route to  add or serie to the taste of the logged-in user
-tasteRoute.patch('addOrdelete', authenticateToken, addordeleteTaste)
+tasteRoute.get('/is/in', authenticateToken,checkTaste)
+tasteRoute.get('', authenticateToken, getTaste)
+tasteRoute.patch('/addOrdelete', authenticateToken, addOrDeleteTaste)
+
+
 // Route to get all tastes (for admin use)
 tasteRoute.get('all', authenticateToken, getAllTastes)
 

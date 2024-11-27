@@ -34,7 +34,8 @@ export const login = async (req, res) => {
         subscription: true,
         devices: true,
         subscription: true,
-        password:true
+        password:true,
+        StreamingAccess:true
       }
        // Include necessary relations upfront
     });
@@ -63,8 +64,14 @@ export const login = async (req, res) => {
        
       }
     const token = generateToken(payload);
-    registerDevice(userInfo, deviceInfo, token)
-    res.cookie('accessToken', token, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 7 });
+    await registerDevice(userInfo, deviceInfo, token)
+   // res.cookie('accessToken', token, {
+      // httpOnly: true,
+     //   maxAge: 1000 * 60 * 60 * 24 * 7 ,
+     // SameSite:"None",
+     // secure: true
+    // });
+    userInfo.accessToken=token;
     res.status(200).json(userInfo);
     
   } catch (err) {
@@ -77,11 +84,11 @@ export const login = async (req, res) => {
 async function registerDevice(userInfo, deviceInfo, token) {
   const deviceData = {
     userId: userInfo.id,
-    deviceType: deviceInfo.deviceType,
-    browser: deviceInfo.browser,
-    os: deviceInfo.os,
-    location: deviceInfo.location,
-    ipAddress: deviceInfo.ipAddress,
+    deviceType: deviceInfo?.deviceType,
+    browser: deviceInfo?.browser,
+    os: deviceInfo?.os,
+    location: deviceInfo?.location,
+    ipAddress: deviceInfo?.ipAddress,
     loginTime: new Date(),
     isActive: true,
     token: token
@@ -91,22 +98,26 @@ async function registerDevice(userInfo, deviceInfo, token) {
   const activeDevices = await prismaclient.device.findMany({
     where: {
       userId: userInfo.id,
-      isActive: true
     },
     orderBy: {
       loginTime: 'asc' // Oldest login time first
     }
   });
-  
+ 
+    // Step 4: Calculate number of devices to delete
+    
   // If the user has reached the maximum allowed devices
-  if (activeDevices.length === userInfo.devices) {
+  if (activeDevices.length >= userInfo.devices) {
     // Find the oldest device (the first one due to ascending order) and delete it
-    const oldestDevice = activeDevices[0];
-    await prismaclient.device.delete({
-      where: {
-        id: oldestDevice.id
-      }
-    });
+   
+    const excessDeviceCount = activeDevices.length - userInfo.devices+1;
+
+    // Step 5: Delete the oldest devices until only the allowed number remains
+    for (let i = 0; i < excessDeviceCount; i++) {
+      await prismaclient.device.delete({
+        where: { id: activeDevices[i].id }
+      });
+    }
    
   }
 
@@ -180,7 +191,8 @@ const handleUserBonus = async (user) => {
       devicesInfo:true,
       devices: true,
       subscription: true,
-      password:true
+      password:true,
+      StreamingAccess:true
     }
   }).then(userInfo => {
     if (totalBonus > 0) userInfo.bonus = totalBonus;
@@ -210,7 +222,11 @@ export const logout = async (req, res) => {
   prismaclient.device.delete({
     where: {
       token: token,
-      isFlagged:true
+    }
+  });
+  prismaclient.device.delete({
+    where: {
+      isFlagged: true,
     }
   });
   res.clearCookie('accessToken');
