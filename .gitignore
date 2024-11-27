@@ -1,11 +1,9 @@
 # Node.js dependencies
-/node_modules
+node_modules/
 
-# m3u files
+# Playlist and image files
 *.m3u
 *.png
 
-# Image folders
-# Exclude images folder and its content
+# Exclude specific folder content
 /apidatafilter/imgs/
-
