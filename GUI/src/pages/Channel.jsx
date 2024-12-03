@@ -17,7 +17,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
 import { FaArrowLeft } from 'react-icons/fa';
 import PortPlayer from './portplayer';
-
+import { streamingserverurl } from '../context/authProvider';
 const ChannelDetailPage = () => {
   const { id } = useParams();
   const { api } = useAuth();
@@ -111,7 +111,7 @@ const ChannelDetailPage = () => {
                 <HStack>
                  
                     <Image
-       src={channel.logos[0] || 'default-logo.png'}
+       src={`${streamingserverurl}/media/${encodeURIComponent(`${channel.logos[0]}`)}`||`${streamingserverurl}/media/${encodeURIComponent(`${channel.logos[1]}`)}` || 'default-logo.png'}
       alt="Logo du Canal"
       borderRadius="md"
       objectFit="contain"
@@ -144,7 +144,7 @@ const ChannelDetailPage = () => {
           <Box ml={2}>
           <HStack>
             <Image
-              src={channel.logos[0] || 'default-logo.png'}
+              src={`${streamingserverurl}/media/${encodeURIComponent(`${channel.logos[0]}`)}`||`${streamingserverurl}/media/${encodeURIComponent(`${channel.logos[1]}`)}` || 'default-logo.png'}
               alt="Logo du Canal"
               boxSize={{ base: '40px', md: '50px' }}
               borderRadius="md"

@@ -3,6 +3,8 @@ import { Box, Input, Select, Skeleton, SimpleGrid, Image, Button, Text } from '@
 import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { useAuth } from '../context/useAuth';
+import { streamingserverurl } from '../context/authProvider';
+
 
 const ITEMS_PER_PAGE = 20;
 
@@ -75,7 +77,7 @@ const ChannelListPage = () => {
 
   const renderLogo = (logos) => (
      <Image
-      src={logos[0] || logos[1] || 'default-logo.png'}
+      src={`${streamingserverurl}/media/${encodeURIComponent(`${logos[0]}`)}`|| `${streamingserverurl}/media/${encodeURIComponent(`${logos[1]}`)}` || 'default-logo.png'}
       alt="Channel Logo"
       borderRadius="md"
       objectFit="contain"

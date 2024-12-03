@@ -2,7 +2,6 @@ import axios from 'axios'
 import { baseurl } from '../context/authProvider'
 
 import { streamingserverurl } from '../context/authProvider'
-const serieiInfoEndpoint='/player_api.php?username=115763054352463&password=iuadobbh3v&action=get_series_info&series_id='  ///  we give the id 18495
 export const imagePath = 'https://image.tmdb.org/t/p/w500'
 export const imagePathOriginal = 'https://image.tmdb.org/t/p/original'
 
@@ -37,8 +36,8 @@ export const fetchDetails = async (type, id) => {
 
 export const getSerieInfo = async (serieId) => {
   
-  const res = await axios.get(`${streamingserverurl}${serieiInfoEndpoint}${serieId}`,);
-  
+  const res = await axios.get(`${streamingserverurl}/serieinfo/${encodeURIComponent(`${serieId}`)}`);
+
   return res.data;
 };
 

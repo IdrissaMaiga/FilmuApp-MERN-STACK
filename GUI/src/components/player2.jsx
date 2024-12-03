@@ -26,8 +26,8 @@ const ArtPlayerComponent = ({ videourl, extension,canDownload }) => {
         container: artPlayerRef.current,
         url: videourl, // Dynamic video URL
         volume: 0.5,
-        type: extension || 'mp4',
-        isLive: false,
+        type:'mp4',
+        isLive: extension==="m3u8",
         muted: false,
         fastForward: true,
         autoplay: true,

@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Box, Text, Skeleton, VStack, Collapse, Button, Divider, useColorMode, useBreakpointValue } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { useAuth } from '../context/useAuth';
-import HLSPlayer from '../components/hlsplayer';
+import ArtPlayerComponent from '../components/player2';
 
 
 const PortPlayer = ({ portId, logo }) => {
@@ -45,17 +45,17 @@ const PortPlayer = ({ portId, logo }) => {
         const port = response.data;
 
         if (user.StreamingAccess && port) {
-          const tempUrl = `${streamingserverurl}/live/${user.StreamingAccess.username}/${user.StreamingAccess.password}/${port.indexer}.m3u8`;
+          const tempUrl = `${streamingserverurl}/live/${encodeURIComponent(`/live/${user.StreamingAccess.username}/${user.StreamingAccess.password}/${port.indexer}.m3u8`)}`;
           setStreamUrl(tempUrl);
 
           const epgResponse = await epg.get("", {
             params: {
-              username: user.StreamingAccess.username,
-              password: user.StreamingAccess.password,
-              action: 'get_short_epg',
-              stream_id: port.indexer,
+                username: user.StreamingAccess.username,
+                password: user.StreamingAccess.password,
+                action: 'get_short_epg',
+                stream_id: port.indexer,
             },
-          });
+        });
          
           setEpgData(epgResponse.data.epg_listings || []);
           
@@ -86,19 +86,8 @@ const PortPlayer = ({ portId, logo }) => {
       {loading ? (
         <Skeleton height="200px" borderRadius="8px" />
       ) : (
-        (portId && streamingserverurl &&
-          <HLSPlayer
-            src={streamUrl}  
-            onContextMenu={(e) => e.preventDefault()} 
-            width="100%" 
-            height="500px"  
-            style={{
-              borderRadius: '8px', 
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-              margin: '0',
-              width: "100%"
-            }}
-          />
+        (
+          portId && streamingserverurl &&streamUrl&& <ArtPlayerComponent canDownload={false}  videourl={streamUrl} extension={"m3u8"}></ArtPlayerComponent>
         )
       )}
      

@@ -3,17 +3,20 @@ import axios from 'axios'
 import { useToast } from '@chakra-ui/react'
 import PropTypes from "prop-types";
 import Bowser from "bowser";
-export const baseurl= 'http://filmu.live'//'http://myservermovie.zapto.org:4000' //"http://192.168.1.102:8800"//'http://localhost:8800'
+export const baseurl= 'https://filmu.live'//'http://myservermovie.zapto.org:4000' //"http://192.168.1.102:8800"//'http://localhost:8800'
 const api = axios.create({
   baseURL: baseurl, // Ensure this matches your backend
  // withCredentials: true, 
 })
- export const streamingserverurl = 'http://763025459169.cdn-fug.com:8080' // Ensure this matches your backend
+ export const streamingserverurl = 'https://filmu.live/proxy' // Ensure this matches your backend
+ 
+ // program API
 const epg = axios.create({
-  baseURL: 'http://763025459169.cdn-fug.com:2082/player_api.php' // Ensure this matches your backend
-})
+  baseURL: 'https://filmu.live/proxy/epg', 
+});
 
 export const AuthContext = createContext()
+
 
 
 

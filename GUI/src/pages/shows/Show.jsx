@@ -596,8 +596,8 @@ const Episode = ({ seriesId, seasonNumber, episodeNumber, watchingData, episodes
             />
             <ModalBody p={0} >
               {serveurSelectionné && (
-               <ArtPlayerComponent canDownload={isDownloaded} videourl={`${streamingserverurl}/series/${user.StreamingAccess.username}/${user.StreamingAccess.password}/${serveurSelectionné.id}.${serveurSelectionné.container_extension}`} extension={serveurSelectionné.container_extension}></ArtPlayerComponent>
-              )}
+               <ArtPlayerComponent canDownload={isDownloaded} videourl={`${streamingserverurl}/${serveurSelectionné.extension==="mp4"?"video":"video1"}/${encodeURIComponent(`/series/${user.StreamingAccess.username}/${user.StreamingAccess.password}/${serveurSelectionné.id}.${serveurSelectionné.container_extension}`)}`} extension={serveurSelectionné.container_extension}></ArtPlayerComponent>
+              )}                                             
             </ModalBody>
           </ModalContent>
         </Modal>

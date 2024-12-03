@@ -243,8 +243,8 @@ const Movie = () => {
           <ModalContent maxW="90vw" maxH="90vh" bg="transparent" margin="auto">
             <ModalCloseButton top="10px" right="10px" color="white" zIndex={11} bg="rgba(0,0,0,0.5)" _hover={{ bg: "rgba(0, 0, 0, 0.7)" }} borderRadius="full" />
             <ModalBody p={0 } >
-             {serveurSelectionné.extension!="ts"&& <ArtPlayerComponent canDownload={isDownloaded} videourl={`${streamingserverurl}/movie/${user.StreamingAccess.username}/${user.StreamingAccess.password}/${serveurSelectionné.indexer}.${serveurSelectionné.extension}`} extension={serveurSelectionné.extension}></ArtPlayerComponent>}
-      
+            <ArtPlayerComponent canDownload={isDownloaded}  videourl={`${streamingserverurl}/${serveurSelectionné.extension==="mp4"?"video":"video1"}/${encodeURIComponent(`/movie/${user.StreamingAccess.username}/${user.StreamingAccess.password}/${serveurSelectionné.indexer}.${serveurSelectionné.extension}`)}`} extension={serveurSelectionné.extension}></ArtPlayerComponent>
+            
               
             </ModalBody>
           </ModalContent>

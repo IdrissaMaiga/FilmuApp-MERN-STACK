@@ -3,6 +3,7 @@ import { Box, Flex, IconButton, Skeleton,  useBreakpointValue, Image, Center, VS
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useAuth } from '../context/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { streamingserverurl } from '../context/authProvider';
 
 const ChannelWidget = () => {
   const [channels, setChannels] = useState([]);
@@ -85,7 +86,7 @@ const ChannelWidget = () => {
   };
   const renderLogo = (logos) => (
     <Image
-      src={logos[0] || logos[1] || 'default-logo.png'}
+      src={ `${streamingserverurl}/media/${encodeURIComponent(`${logos[0]}`)}`||`${streamingserverurl}/media/${encodeURIComponent(`${logos[1]}`)}` ||  'default-logo.png'}
       alt="Channel Logo"
       borderRadius="md"
       objectFit="contain"
